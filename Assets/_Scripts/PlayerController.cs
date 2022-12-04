@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //_rb = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         //_rb.rotation = Quaternion.identity;
     }
 

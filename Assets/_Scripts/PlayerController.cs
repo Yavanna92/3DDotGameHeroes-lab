@@ -9,11 +9,13 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private float _speed = 1.0f;
     [SerializeField] private Rigidbody _rb;
+    //[SerializeField] private Animation Walk;
 
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        //Walk = GetComponent<Animation>();
     }
 
     // Update is called once per frame
@@ -26,5 +28,6 @@ public class PlayerController : MonoBehaviour
             _rb.rotation = rot;
         }
         _rb.velocity = dir * _speed * Time.fixedDeltaTime;
+        //Walk.Play();
     }
 }

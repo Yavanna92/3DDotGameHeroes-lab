@@ -1,13 +1,13 @@
 using Assets._Scripts;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 public class GameSystem : MonoBehaviour
 {
     public static GameSystem Instance { get; private set; }
-
-    //public GameObject player;
 
     [SerializeField] 
     private GameObject _player;

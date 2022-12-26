@@ -154,7 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _player: {fileID: 5384020460162081246, guid: 85b0267c708d57640b0f5eb15063ffae, type: 3}
   _map: {fileID: 3939650257077275492, guid: 687e0e181ac9a454b844c0f5935560aa, type: 3}
-  _camera: {fileID: 102611228400753641, guid: dc368ae3c9927a241becec31fab7ed52, type: 3}
+  _camera: {fileID: 102611228400753643, guid: dc368ae3c9927a241becec31fab7ed52, type: 3}
   _ambientLight: {fileID: 4439616748888445125, guid: dbf4246c02fca03458c269d41b21ee31, type: 3}
   _bat: {fileID: 3181826789141595895, guid: ea1d5fde462fce042b64bd0a596cd328, type: 3}
 --- !u!4 &1390513059

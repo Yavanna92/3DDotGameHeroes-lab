@@ -434,9 +434,10 @@ GameObject:
   - component: {fileID: 5077399307496344609}
   - component: {fileID: 5077399307496344610}
   - component: {fileID: 5077399307496344623}
+  - component: {fileID: 6003107322098030792}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -461,7 +462,7 @@ Transform:
   - {fileID: 3329980884846095932}
   - {fileID: 2227915339482776300}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &5077399307496344611
 Rigidbody:
@@ -568,6 +569,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 200
   _rb: {fileID: 5077399307496344611}
+--- !u!114 &6003107322098030792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5384020460162081246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156c19b548ac7bd47b11e8c1a47c6163, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  health: 0
 --- !u!1 &6661427013731471627
 GameObject:
   m_ObjectHideFlags: 0

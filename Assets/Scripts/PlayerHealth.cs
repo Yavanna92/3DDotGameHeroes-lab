@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public int Health { get; set; }
+    public int Health { get; private set; }
     private const int _MAX_HEALTH = 10;
 
     // Start is called before the first frame update
@@ -14,6 +14,7 @@ public class PlayerHealth : MonoBehaviour
         Health = _MAX_HEALTH;
     }
 
+    // TODO: sync data on Health
     public void TakeDamage(int amount)
     {
         Health -= amount;
@@ -25,6 +26,7 @@ public class PlayerHealth : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
     // Update is called once per frame
     void Update()
     {

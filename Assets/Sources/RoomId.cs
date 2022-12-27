@@ -1,4 +1,4 @@
-﻿namespace Assets._Scripts
+﻿namespace Assets.Scripts
 {
     public enum RoomId
     {

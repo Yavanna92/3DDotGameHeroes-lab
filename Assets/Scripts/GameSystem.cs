@@ -1,9 +1,5 @@
-using Assets._Scripts;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+using Assets.Scripts;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class GameSystem : MonoBehaviour
 {
@@ -26,6 +22,10 @@ public class GameSystem : MonoBehaviour
 
     private RoomId _currentRoomId;
 
+    private bool _isGameOver = false;
+
+    // When instantiating it is strictly necessary to save the instance in the private fields
+    // if we need to access to any of the object components
     void Awake()
     {
         if (Instance != null)
@@ -36,10 +36,12 @@ public class GameSystem : MonoBehaviour
 
         Instance = this;
 
+        // Instantiate components
         Instantiate(_map);
         _camera = Instantiate(_camera);
         _player = Instantiate(_player);
         Instantiate(_ambientLight);
+
         _currentRoomId = RoomId.Entrance;
     }
 
@@ -49,7 +51,7 @@ public class GameSystem : MonoBehaviour
         switch (_currentRoomId)
         {
             case RoomId.Entrance:
-                initRoom();
+                InitRoom();
                 break;
         }
 
@@ -60,7 +62,7 @@ public class GameSystem : MonoBehaviour
     {
         UpdateCurrentRoomId();
         UpdateCameraDebugKeys();
-
+        _isGameOver = _player.GetComponent<PlayerHealth>().Health != 0;
     }
 
     void OnGui()
@@ -68,9 +70,10 @@ public class GameSystem : MonoBehaviour
         // common GUI code goes here
     }
 
-    void initRoom()
+    void InitRoom()
     {
-        Instantiate(_bat);
+        _bat = Instantiate(_bat);
+        _bat.GetComponent<BatDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
     }
 
     private void UpdateCurrentRoomId()
@@ -78,7 +81,7 @@ public class GameSystem : MonoBehaviour
         var pos = _player.GetComponent<PlayerController>().PlayerPos;
         var hasChanged = false;
 
-        // TODO: make adjustments to rooms boundaries as soon as we have the final Player model
+        // TODO: make adjustments to rooms boundaries as soon as we have the final Player model,
         // now they are not precise enough as Player center is at the mass center
         switch (_currentRoomId)
         {
@@ -267,9 +270,7 @@ public class GameSystem : MonoBehaviour
         }
 
         if (hasChanged)
-        {
             _camera.GetComponent<CameraController>().MoveCamera(_currentRoomId);
-        }
     }
 
     private void UpdateCameraDebugKeys()

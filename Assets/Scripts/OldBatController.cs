@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
+// TODO: not attached to any prefab. Use this controller as a base to implement scorpion enemy
 public class OldBatController : MonoBehaviour
 {
-    // serialize field vs. public ?
     [SerializeField] private Rigidbody _rb;
     public Transform bulletSpawnPoint;
     public GameObject bulletPrefab;

@@ -20,6 +20,9 @@ public class GameSystem : MonoBehaviour
     [SerializeField]
     private GameObject _bat;
 
+    [SerializeField]
+    private Canvas _gameUiCanvas;
+
     private RoomId _currentRoomId;
 
     private bool _isGameOver = false;
@@ -41,6 +44,7 @@ public class GameSystem : MonoBehaviour
         _camera = Instantiate(_camera);
         _player = Instantiate(_player);
         Instantiate(_ambientLight);
+        _gameUiCanvas = Instantiate(_gameUiCanvas);
 
         _currentRoomId = RoomId.Entrance;
     }
@@ -62,7 +66,10 @@ public class GameSystem : MonoBehaviour
     {
         UpdateCurrentRoomId();
         UpdateCameraDebugKeys();
+        _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
         _isGameOver = _player.GetComponent<PlayerHealth>().Health != 0;
+        if (_isGameOver)
+            _gameUiCanvas.GetComponent<GameUIController>().ShowGameOver();
     }
 
     void OnGui()

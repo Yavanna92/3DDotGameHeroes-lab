@@ -1,4 +1,4 @@
-using Assets.Scripts;
+using Assets.Sources;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour

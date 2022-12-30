@@ -1,5 +1,7 @@
 using Assets.Sources;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSystem : MonoBehaviour
 {
@@ -23,9 +25,16 @@ public class GameSystem : MonoBehaviour
     [SerializeField]
     private Canvas _gameUiCanvas;
 
+    [SerializeField]
+    private Canvas _mainMenuCanvas;
+
+    private Button _startButton;
+
+    private Button _menuButton;
+
     private RoomId _currentRoomId;
 
-    private bool _isGameOver = false;
+    private bool _isGameOver;
 
     // When instantiating it is strictly necessary to save the instance in the private fields
     // if we need to access to any of the object components
@@ -39,12 +48,20 @@ public class GameSystem : MonoBehaviour
 
         Instance = this;
 
+        Time.timeScale = 0f;
+
         // Instantiate components
         Instantiate(_map);
         _camera = Instantiate(_camera);
-        _player = Instantiate(_player);
+        
         Instantiate(_ambientLight);
         _gameUiCanvas = Instantiate(_gameUiCanvas);
+        _menuButton = _gameUiCanvas.GetComponentInChildren<Button>();
+
+        _mainMenuCanvas = Instantiate(_mainMenuCanvas);
+        _startButton = _mainMenuCanvas.GetComponentInChildren<Button>();
+
+        _player = Instantiate(_player);
 
         _currentRoomId = RoomId.Entrance;
     }
@@ -59,6 +76,7 @@ public class GameSystem : MonoBehaviour
                 break;
         }
 
+        
     }
 
     // Update is called once per frame
@@ -67,9 +85,49 @@ public class GameSystem : MonoBehaviour
         UpdateCurrentRoomId();
         UpdateCameraDebugKeys();
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
-        _isGameOver = _player.GetComponent<PlayerHealth>().Health != 0;
-        if (_isGameOver)
+        
+        if (_isGameOver) {
             _gameUiCanvas.GetComponent<GameUIController>().ShowGameOver();
+            _menuButton.onClick.AddListener(ShowMenu);
+        }
+        else
+            _isGameOver = _player.GetComponent<PlayerHealth>().Health == 0 && !_isGameOver;
+    }
+
+    private void OnEnable()
+    {
+        _startButton.onClick.AddListener(StartGame);
+        _menuButton.onClick.RemoveListener(ShowMenu);
+    }
+
+    private void OnDisable()
+    {
+        _startButton.onClick.RemoveListener(StartGame);
+    }
+
+    private void StartGame()
+    {
+        _player.GetComponent<PlayerHealth>().ResetHealth();
+
+        _currentRoomId = RoomId.Entrance;
+        _isGameOver = false;
+        // Hides the button
+        _startButton.gameObject.SetActive(false);
+        _mainMenuCanvas.gameObject.SetActive(false);
+
+        _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
+
+        Time.timeScale = 1f;
+    }
+
+    private void ShowMenu()
+    {
+        Time.timeScale = 0f;
+
+        _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
+
+        _startButton.gameObject.SetActive(true);
+        _mainMenuCanvas.gameObject.SetActive(true);
     }
 
     void OnGui()

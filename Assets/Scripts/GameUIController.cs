@@ -30,4 +30,9 @@ public class GameUIController : MonoBehaviour
     {
         _gameOverController.Setup();
     }
+
+    public void HideGameOver()
+    {
+        _gameOverController.Clear();
+    }
 }

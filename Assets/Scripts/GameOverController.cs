@@ -22,4 +22,9 @@ public class GameOverController : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
+
+    public void Clear()
+    {
+        gameObject.SetActive(false);
+    }
 }

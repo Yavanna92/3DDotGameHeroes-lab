@@ -225,6 +225,9 @@ MonoBehaviour:
   _ambientLight: {fileID: 4439616748888445125, guid: dbf4246c02fca03458c269d41b21ee31, type: 3}
   _bat: {fileID: 3181826789141595895, guid: ea1d5fde462fce042b64bd0a596cd328, type: 3}
   _gameUiCanvas: {fileID: 1022520543252489386, guid: a1e7979126f494d4ea8183b3c2b39a51, type: 3}
+  _mainMenuCanvas: {fileID: 1966592484583350306, guid: 3d900fd36360ab74192647f6a9976982, type: 3}
+  _startButton: {fileID: 0}
+  _menuButton: {fileID: 0}
 --- !u!4 &1390513059
 Transform:
   m_ObjectHideFlags: 0

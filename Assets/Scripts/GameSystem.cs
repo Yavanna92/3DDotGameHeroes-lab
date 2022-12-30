@@ -67,8 +67,10 @@ public class GameSystem : MonoBehaviour
         UpdateCurrentRoomId();
         UpdateCameraDebugKeys();
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
-        _isGameOver = _player.GetComponent<PlayerHealth>().Health != 0;
-        if (_isGameOver)
+        var gameFinished = _isGameOver;
+        _isGameOver = _player.GetComponent<PlayerHealth>().Health == 0;
+        gameFinished = gameFinished != _isGameOver;
+        if (gameFinished && _isGameOver)
             _gameUiCanvas.GetComponent<GameUIController>().ShowGameOver();
     }
 

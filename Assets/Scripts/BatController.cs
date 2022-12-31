@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.Windows;
-using System.Threading;
-using Assets.Scripts.Sources;
-using System.Runtime.CompilerServices;
+using Assets.Sources;
 
 public class BatController : MonoBehaviour
 {
@@ -17,9 +12,7 @@ public class BatController : MonoBehaviour
     [SerializeField]
     private Rigidbody _rb;
 
-    // TODO: see how to set from GameSystem
-    // coords on plane XZ
-    public Vector2 initialPos;
+    public Vector2 InitialPos { get; set; }
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +25,7 @@ public class BatController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         // place enemy
-        _rb.position = new Vector3(0.0f, 1.5f, -21.0f);
+        _rb.position = new Vector3(0.0f, 1.6f, -21.0f);
     }
 
     // Update is called once per frame
@@ -48,7 +41,7 @@ public class BatController : MonoBehaviour
         }
         else if (!_isAttacking && _timer >= _cooldown)
         {
-            _rb.MovePosition(new Vector3(_rb.position.x, 1.5f, _rb.position.z));
+            _rb.MovePosition(new Vector3(_rb.position.x, 1.6f, _rb.position.z));
             dir = new Vector3(0.0f, 0.0f, 0.0f);
             _isAttacking = true;
             _timer = 0.0f;
@@ -61,6 +54,15 @@ public class BatController : MonoBehaviour
         _rb.velocity = dir;
     }
 
+    private void OnCollisionEnter(Collision collision)
+    {
+        _batAttackState = BatAttackState.Rising;
+
+        _rb.velocity = new Vector3(0.0f, 2f, 0.0f);
+    }
+
+    // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
+    // to be able to attack it
     private Vector3 UpdateOnAttack()
     {
         Vector3 dir = new Vector3(0.0f, 0.0f, 0.0f);
@@ -83,7 +85,8 @@ public class BatController : MonoBehaviour
                 break;
 
             case BatAttackState.TargetPoint:
-
+                // TODO: test that this enemy can be killed as it is at this moment; if not, add a timer
+                // and keep it in this position for enough game cycles to make player able to kill it
                 _rb.MovePosition(new Vector3(_rb.position.x, 0.6f, _rb.position.z));
 
                 _batAttackState = BatAttackState.Rising;
@@ -101,7 +104,7 @@ public class BatController : MonoBehaviour
 
             case BatAttackState.EndingPoint:
                 // reset values
-                _rb.MovePosition(new Vector3(_rb.position.x, 1.5f, _rb.position.z));
+                _rb.MovePosition(new Vector3(_rb.position.x, 1.6f, _rb.position.z));
                 _isAttacking = false;
                 _timer = 0.0f;
                 _batAttackState = BatAttackState.StartingPoint;

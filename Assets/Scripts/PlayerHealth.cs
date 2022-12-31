@@ -27,6 +27,12 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    public void ResetHealth()
+    {
+        gameObject.SetActive(true);
+        Health = _MAX_HEALTH;
+    }
+
     // Update is called once per frame
     void Update()
     {

@@ -1,18 +1,69 @@
 using UnityEngine;
 using System;
 using Assets.Sources;
+using UnityEngine.AI;
 
 public class BatController : MonoBehaviour
 {
+    #region Fields
+
+    [SerializeField]
+    private NavMeshAgent _agent;
+
+    [SerializeField]
+    public LayerMask _groundMask;
+
+    [SerializeField]
+    public LayerMask _playerMask;
+
+    // patroling
+    [SerializeField]
+    private Vector3 _walkPoint;
+
+    [SerializeField]
+    private bool _walkPointSet;
+
+    [SerializeField]
+    private float _walkPointRange;
+
+    // attacking
+    [SerializeField]
+    private float _timeBetweenAttacks;
+
+    [SerializeField]
+    private bool _alreadyAttacked;
+
+    // states
+    [SerializeField]
+    private float _sightRange;
+
+    [SerializeField]
+    private float _attackRange;
+
+    [SerializeField]
+    private bool _playerInSightRange;
+
+    [SerializeField]
+    private bool _playerInAttackRange;
+
+    [SerializeField]
+    private Rigidbody _rb;
+
+    private Transform _playerTransform;
     private float _timer;
     private float _cooldown;
     private bool _isAttacking;
     private BatAttackState _batAttackState;
 
-    [SerializeField]
-    private Rigidbody _rb;
-
     public Vector2 InitialPos { get; set; }
+
+    #endregion
+
+    private void Awake()
+    { 
+        _agent = GetComponent<NavMeshAgent>();
+        _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -21,7 +72,7 @@ public class BatController : MonoBehaviour
         _timer = 0.0f; _cooldown = 10.0f; _isAttacking = false;
         _batAttackState = BatAttackState.StartingPoint;
 
-        // init physics -> instiantate rigid body
+        // init physics -> get rigid body
         _rb = GetComponent<Rigidbody>();
 
         // place enemy
@@ -52,6 +103,17 @@ public class BatController : MonoBehaviour
         }
 
         _rb.velocity = dir;
+
+        //Check for sight and attack range
+        _playerInSightRange = Physics.CheckSphere(transform.position, _sightRange, _playerMask);
+        _playerInAttackRange = Physics.CheckSphere(transform.position, _attackRange, _playerMask);
+
+        if (!_playerInSightRange && !_playerInAttackRange)
+            Patroling();
+        else if (_playerInSightRange && !_playerInAttackRange)
+            Chase();
+        else if (_playerInSightRange && _playerInAttackRange)
+            Attack();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -61,7 +123,54 @@ public class BatController : MonoBehaviour
         _rb.velocity = new Vector3(0.0f, 2f, 0.0f);
     }
 
-    // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
+    private void Patroling()
+    {
+        if (!_walkPointSet)
+            SearchWalkPoint();
+        else
+            _agent.SetDestination(_walkPoint);
+
+        Vector3 distanceToWalkPoint = transform.position - _walkPoint;
+        if (distanceToWalkPoint.magnitude < 1f)
+            _walkPointSet = false;
+    }
+
+    private void SearchWalkPoint()
+    {
+        float randX = UnityEngine.Random.Range(-_walkPointRange, _walkPointRange);
+        float randZ = UnityEngine.Random.Range(-_walkPointRange, _walkPointRange);
+
+        _walkPoint = new Vector3(transform.position.x + randX, transform.position.y, transform.position.z + randZ);
+
+        if (Physics.Raycast(_walkPoint, -transform.up, 2.0f, _groundMask))
+            _walkPointSet = true;
+    }
+
+    private void Chase()
+    {
+        _agent.SetDestination(_playerTransform.position);
+    }
+
+    private void Attack()
+    {
+        _agent.SetDestination(transform.position);
+
+        _rb.rotation = Quaternion.LookRotation(_playerTransform.position, Vector3.up);
+
+        UpdateOnAttack();
+
+        if (!_alreadyAttacked)
+        {
+            _alreadyAttacked = true;
+            Invoke(nameof(ResetAttack), _timeBetweenAttacks);
+        }
+    }
+    private void ResetAttack()
+    {
+        _alreadyAttacked = false;
+    }
+
+        // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
     // to be able to attack it
     private Vector3 UpdateOnAttack()
     {

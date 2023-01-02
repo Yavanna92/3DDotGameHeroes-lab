@@ -23,6 +23,9 @@ public class GameSystem : MonoBehaviour
     private GameObject _bat;
 
     [SerializeField]
+    private GameObject _skeleton;
+
+    [SerializeField]
     private Canvas _gameUiCanvas;
 
     [SerializeField]
@@ -74,9 +77,7 @@ public class GameSystem : MonoBehaviour
             case RoomId.Entrance:
                 InitRoom();
                 break;
-        }
-
-        
+        }        
     }
 
     // Update is called once per frame
@@ -139,6 +140,8 @@ public class GameSystem : MonoBehaviour
     {
         _bat = Instantiate(_bat);
         _bat.GetComponent<BatDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
+
+        _skeleton = Instantiate(_skeleton);
     }
 
     private void UpdateCurrentRoomId()

@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -3221574366366916520}
   - component: {fileID: 5916182171036733403}
   m_Layer: 0
-  m_Name: Bat
+  m_Name: BatBackup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -130,7 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rb: {fileID: 3181826789141595894}
-  _batNavMesh: {fileID: 3181826789141595895, guid: c73393c1af5010e4e8e6bfe5e1a815ef, type: 3}
 --- !u!114 &-3221574366366916520
 MonoBehaviour:
   m_ObjectHideFlags: 0

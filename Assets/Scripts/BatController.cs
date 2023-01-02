@@ -21,6 +21,7 @@ public class BatController : MonoBehaviour
 
     private void Awake()
     {
+        // init AI -> instantiate NavMesh
         _batNavMesh = Instantiate(_batNavMesh);
     }
 
@@ -34,11 +35,8 @@ public class BatController : MonoBehaviour
         // init physics -> get rigid body
         _rb = GetComponent<Rigidbody>();
 
-        //// init AI -> get NavMesh
-        //_batNavMesh = GetComponent<GameObject>();
-
         // place enemy
-        _rb.position = new Vector3(0.0f, 1.6f, -21.0f);
+        _rb.position = new Vector3(0.0f, 1.5f, -21.0f);
     }
 
     // Update is called once per frame
@@ -55,7 +53,7 @@ public class BatController : MonoBehaviour
         }
         else if (!_isAttacking && _timer >= _cooldown)
         {
-            _rb.MovePosition(new Vector3(_rb.position.x, 1.6f, _rb.position.z));
+            _rb.MovePosition(new Vector3(_rb.position.x, 1.5f, _rb.position.z));
             dir = new Vector3(0.0f, 0.0f, 0.0f);
             _isAttacking = true;
             _timer = 0.0f;
@@ -63,8 +61,7 @@ public class BatController : MonoBehaviour
         else
         {
             // vertical oscillation
-            
-            dir = new Vector3(0.0f, (float)Math.Sin(_batTime * 3f) * 0.3f, 0.0f);
+            dir = new Vector3(0.0f, (float)Math.Sin(_batTime * 3f) * 0.15f, 0.0f);
         }
 
         _rb.velocity = dir;
@@ -76,7 +73,7 @@ public class BatController : MonoBehaviour
     {
         _batAttackState = BatAttackState.Rising;
 
-        _rb.velocity = new Vector3(0.0f, 2f, 0.0f);
+        _rb.velocity = new Vector3(0.0f, 1.5f, 0.0f);
     }
 
     // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
@@ -98,7 +95,7 @@ public class BatController : MonoBehaviour
                 if (_rb.position.y <= 0.6f)
                     _batAttackState = BatAttackState.TargetPoint;
                 else
-                    dir = new Vector3(0.0f, -2f, 0.0f);
+                    dir = new Vector3(0.0f, -1.5f, 0.0f);
 
                 break;
 
@@ -113,16 +110,16 @@ public class BatController : MonoBehaviour
 
             case BatAttackState.Rising:
 
-                if (_rb.position.y >= 1.5f)
+                if (_rb.position.y >= 1.4f)
                     _batAttackState = BatAttackState.EndingPoint;
                 else
-                    dir = new Vector3(0.0f, 2f, 0.0f);
+                    dir = new Vector3(0.0f, 1.5f, 0.0f);
 
                 break;
 
             case BatAttackState.EndingPoint:
                 // reset values
-                _rb.MovePosition(new Vector3(_rb.position.x, 1.6f, _rb.position.z));
+                _rb.MovePosition(new Vector3(_rb.position.x, 1.5f, _rb.position.z));
                 _isAttacking = false;
                 _timer = 0.0f;
                 _batAttackState = BatAttackState.StartingPoint;

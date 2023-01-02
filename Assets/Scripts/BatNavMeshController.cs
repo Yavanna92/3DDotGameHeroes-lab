@@ -16,6 +16,9 @@ public class BatNavMeshController : MonoBehaviour
     [SerializeField]
     public LayerMask _playerMask;
 
+    [SerializeField]
+    public LayerMask _waterMask;
+
     // patroling
     [SerializeField]
     private Vector3 _walkPoint;
@@ -25,13 +28,6 @@ public class BatNavMeshController : MonoBehaviour
 
     [SerializeField]
     private float _walkPointRange;
-
-    // attacking
-    [SerializeField]
-    private float _timeBetweenAttacks;
-
-    [SerializeField]
-    private bool _alreadyAttacked;
 
     // states
     [SerializeField]
@@ -65,10 +61,8 @@ public class BatNavMeshController : MonoBehaviour
 
         if (!_playerInSightRange && !_playerInAttackRange)
             Patroling();
-        else if (_playerInSightRange && !_playerInAttackRange)
+        else if (_playerInSightRange)
             Chase();
-        else if (_playerInSightRange && _playerInAttackRange)
-            Attack();
     }
 
     private void Patroling()
@@ -91,29 +85,15 @@ public class BatNavMeshController : MonoBehaviour
 
         _walkPoint = new Vector3(transform.position.x + randX, transform.position.y, transform.position.z + randZ);
 
-        if (Physics.Raycast(_walkPoint, -transform.up, 2.0f, _groundMask))
+        if (Physics.Raycast(_walkPoint, -transform.up, 2.0f, _groundMask) && !Physics.Raycast(_walkPoint, -transform.up, 2.0f, _waterMask))
             _walkPointSet = true;
     }
 
     private void Chase()
     {
         _agent.SetDestination(_playerTransform.position);
-    }
 
-    private void Attack()
-    {
-        _agent.SetDestination(transform.position);
-
-        transform.LookAt(_playerTransform);
-
-        if (!_alreadyAttacked)
-        {
-            _alreadyAttacked = true;
-            Invoke(nameof(ResetAttack), _timeBetweenAttacks);
-        }
-    }
-    private void ResetAttack()
-    {
-        _alreadyAttacked = false;
+        if (_playerInAttackRange)
+            transform.LookAt(_playerTransform);
     }
 }

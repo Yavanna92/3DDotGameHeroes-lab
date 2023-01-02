@@ -105,13 +105,14 @@ MonoBehaviour:
   _playerMask:
     serializedVersion: 2
     m_Bits: 64
-  _walkPoint: {x: 0, y: 0, z: 0}
+  _waterMask:
+    serializedVersion: 2
+    m_Bits: 16
+  _walkPoint: {x: 1, y: 0, z: 1}
   _walkPointSet: 0
-  _walkPointRange: 1
-  _timeBetweenAttacks: 10
-  _alreadyAttacked: 0
-  _sightRange: 4
-  _attackRange: 0
+  _walkPointRange: 0.5
+  _sightRange: 2.5
+  _attackRange: 0.5
   _playerInSightRange: 0
   _playerInAttackRange: 0
 --- !u!195 &9037840989532564199
@@ -123,8 +124,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 3181826789141595895}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 5
-  m_Speed: 2
+  m_Radius: 1
+  m_Speed: 3
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120

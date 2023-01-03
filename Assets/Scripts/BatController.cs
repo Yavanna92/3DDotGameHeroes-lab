@@ -10,6 +10,7 @@ public class BatController : MonoBehaviour
     private bool _isAttacking;
     private BatAttackState _batAttackState;
     private float _batTime;
+    private float _vulnerabilityTimer;
 
     [SerializeField]
     private Rigidbody _rb;
@@ -30,6 +31,7 @@ public class BatController : MonoBehaviour
     {
         // init state
         _timer = 0.0f; _cooldown = 10.0f; _isAttacking = false;
+        _vulnerabilityTimer = 0f;
         _batAttackState = BatAttackState.StartingPoint;
 
         // init physics -> get rigid body
@@ -102,14 +104,23 @@ public class BatController : MonoBehaviour
             case BatAttackState.TargetPoint:
                 // TODO: test that this enemy can be killed as it is at this moment; if not, add a timer
                 // and keep it in this position for enough game cycles to make player able to kill it
-                _rb.MovePosition(new Vector3(_rb.position.x, 0.6f, _rb.position.z));
 
-                _batAttackState = BatAttackState.Rising;
+                if (_vulnerabilityTimer <= 0.001f)
+                {
+                    _rb.MovePosition(new Vector3(_rb.position.x, 0.6f, _rb.position.z));
+                }
+
+                _vulnerabilityTimer += Time.fixedDeltaTime;
+
+                if (_vulnerabilityTimer >= 5f)
+                    _batAttackState = BatAttackState.Rising;
 
                 break;
 
             case BatAttackState.Rising:
-
+                if (_vulnerabilityTimer > 0.001f)
+                    _vulnerabilityTimer = 0f;
+                
                 if (_rb.position.y >= 1.4f)
                     _batAttackState = BatAttackState.EndingPoint;
                 else

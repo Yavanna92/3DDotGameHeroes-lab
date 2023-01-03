@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BatHealthController : MonoBehaviour
+public class EnemyHealthController : MonoBehaviour
 {
     public int health = 2;
 

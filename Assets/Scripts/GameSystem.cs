@@ -26,6 +26,9 @@ public class GameSystem : MonoBehaviour
     private GameObject _skeleton;
 
     [SerializeField]
+    private GameObject _slug;
+
+    [SerializeField]
     private Canvas _gameUiCanvas;
 
     [SerializeField]
@@ -142,6 +145,10 @@ public class GameSystem : MonoBehaviour
         _bat.GetComponent<BatDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
 
         _skeleton = Instantiate(_skeleton);
+        _skeleton.GetComponentInChildren<SkeletonDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
+
+        _slug = Instantiate(_slug);
+        _slug.GetComponent<SlugDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
     }
 
     private void UpdateCurrentRoomId()

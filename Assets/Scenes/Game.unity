@@ -224,7 +224,7 @@ MonoBehaviour:
   _camera: {fileID: 102611228400753643, guid: dc368ae3c9927a241becec31fab7ed52, type: 3}
   _ambientLight: {fileID: 4439616748888445125, guid: dbf4246c02fca03458c269d41b21ee31, type: 3}
   _bat: {fileID: 3973940500463333691, guid: 0857cdf61fd7f4149a66c8cb133a160f, type: 3}
-  _skeleton: {fileID: 334894936125221690, guid: ef38464c57b0b994daaf0d9c746e4120, type: 3}
+  _skeleton: {fileID: 1186193903104432053, guid: 5619634a0fcbbad4f9d9332f1ddc709b, type: 3}
   _slug: {fileID: 1848520958646020973, guid: a5b6f7f1e18693d43b280d13152741fe, type: 3}
   _gameUiCanvas: {fileID: 1022520543252489386, guid: a1e7979126f494d4ea8183b3c2b39a51, type: 3}
   _mainMenuCanvas: {fileID: 1966592484583350306, guid: 3d900fd36360ab74192647f6a9976982, type: 3}

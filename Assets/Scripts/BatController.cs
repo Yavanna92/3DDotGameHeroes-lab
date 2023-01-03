@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using Assets.Sources;
+using Unity.VisualScripting;
 
 public class BatController : MonoBehaviour
 {
@@ -8,11 +9,21 @@ public class BatController : MonoBehaviour
     private float _cooldown;
     private bool _isAttacking;
     private BatAttackState _batAttackState;
+    private float _batTime;
 
     [SerializeField]
     private Rigidbody _rb;
 
+    [SerializeField]
+    private GameObject _batNavMesh;
+
     public Vector2 InitialPos { get; set; }
+
+    private void Awake()
+    {
+        // init AI -> instantiate NavMesh
+        _batNavMesh = Instantiate(_batNavMesh);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -21,11 +32,11 @@ public class BatController : MonoBehaviour
         _timer = 0.0f; _cooldown = 10.0f; _isAttacking = false;
         _batAttackState = BatAttackState.StartingPoint;
 
-        // init physics -> instiantate rigid body
+        // init physics -> get rigid body
         _rb = GetComponent<Rigidbody>();
 
         // place enemy
-        _rb.position = new Vector3(0.0f, 1.6f, -21.0f);
+        _rb.position = new Vector3(0.0f, 1.5f, -21.0f);
     }
 
     // Update is called once per frame
@@ -34,6 +45,7 @@ public class BatController : MonoBehaviour
         Vector3 dir = new Vector3(0.0f, 0.0f, 0.0f);
 
         _timer += Time.fixedDeltaTime;
+        _batTime += Time.fixedDeltaTime;
 
         if (_isAttacking)
         {
@@ -41,24 +53,27 @@ public class BatController : MonoBehaviour
         }
         else if (!_isAttacking && _timer >= _cooldown)
         {
-            _rb.MovePosition(new Vector3(_rb.position.x, 1.6f, _rb.position.z));
+            _rb.MovePosition(new Vector3(_rb.position.x, 1.5f, _rb.position.z));
             dir = new Vector3(0.0f, 0.0f, 0.0f);
             _isAttacking = true;
             _timer = 0.0f;
         }
-        else {
+        else
+        {
             // vertical oscillation
-            dir = new Vector3(0.0f, (float)Math.Sin(Time.time*3f)*0.3f, 0.0f);
+            dir = new Vector3(0.0f, (float)Math.Sin(_batTime * 3f) * 0.15f, 0.0f);
         }
 
         _rb.velocity = dir;
+        var navMeshPos = _batNavMesh.GetComponent<Transform>().position;
+        _rb.MovePosition(new Vector3(navMeshPos.x, _rb.position.y, navMeshPos.z));
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         _batAttackState = BatAttackState.Rising;
 
-        _rb.velocity = new Vector3(0.0f, 2f, 0.0f);
+        _rb.velocity = new Vector3(0.0f, 1.5f, 0.0f);
     }
 
     // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
@@ -80,7 +95,7 @@ public class BatController : MonoBehaviour
                 if (_rb.position.y <= 0.6f)
                     _batAttackState = BatAttackState.TargetPoint;
                 else
-                    dir = new Vector3(0.0f, -2f, 0.0f);
+                    dir = new Vector3(0.0f, -1.5f, 0.0f);
 
                 break;
 
@@ -95,16 +110,16 @@ public class BatController : MonoBehaviour
 
             case BatAttackState.Rising:
 
-                if (_rb.position.y >= 1.5f)
+                if (_rb.position.y >= 1.4f)
                     _batAttackState = BatAttackState.EndingPoint;
                 else
-                    dir = new Vector3(0.0f, 2f, 0.0f);
+                    dir = new Vector3(0.0f, 1.5f, 0.0f);
 
                 break;
 
             case BatAttackState.EndingPoint:
                 // reset values
-                _rb.MovePosition(new Vector3(_rb.position.x, 1.6f, _rb.position.z));
+                _rb.MovePosition(new Vector3(_rb.position.x, 1.5f, _rb.position.z));
                 _isAttacking = false;
                 _timer = 0.0f;
                 _batAttackState = BatAttackState.StartingPoint;

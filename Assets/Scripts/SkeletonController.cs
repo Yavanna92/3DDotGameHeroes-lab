@@ -44,15 +44,15 @@ public class SkeletonController : MonoBehaviour
         var dir = Vector3.zero;
         var rot = transform.rotation;
 
-        if (rot.w < 45 && rot.w >= 135)
+        if (rot.y < 45 && rot.y >= 135)
         {
             dir = Vector3.right;
         }
-        else if (rot.w < 135 && rot.w >= 225)
+        else if (rot.y < 135 && rot.y >= 225)
         {
             dir = Vector3.back;
         }
-        else if (rot.w < 225 && rot.w >= 315)
+        else if (rot.y < 225 && rot.y >= 315)
         {
             dir = Vector3.left;
         }
@@ -71,6 +71,11 @@ public class SkeletonController : MonoBehaviour
             Chase();
         if (playerInSightRange && playerInAttackRange)
             Attack();
+    }
+
+    public void SetAlreadyAttacked()
+    {
+        alreadyAttacked = true;
     }
 
     private void Patroling()
@@ -114,6 +119,8 @@ public class SkeletonController : MonoBehaviour
         if (agent.speed < 8)
             agent.speed = 8;
 
+        _anim.Play("Walk");
+
         agent.SetDestination(_playerTransform.position);
         transform.LookAt(_playerTransform.position);
     }
@@ -134,6 +141,7 @@ public class SkeletonController : MonoBehaviour
     }
     private void ResetAttack()
     {
+        _anim.Play("Iddle");
         alreadyAttacked = false;
     }
 }

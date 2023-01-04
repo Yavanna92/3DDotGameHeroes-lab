@@ -12,6 +12,8 @@ public class SkeletonDamage : MonoBehaviour
         {
             if (playerHealth != null)
                 playerHealth.TakeDamage(2);
+
+            gameObject.GetComponentInParent<SkeletonController>().SetAlreadyAttacked();
         }
     }
 }

@@ -16,6 +16,39 @@ public class GameSystem : MonoBehaviour
     [SerializeField]
     private GameObject _camera;
 
+    //Rooms
+    [SerializeField]
+    private GameObject room1_Object;
+    [SerializeField]
+    private GameObject room2_Object;
+    [SerializeField]
+    private GameObject room3_Object;
+    [SerializeField]
+    private GameObject room4_Object;
+    [SerializeField]
+    private GameObject room5_Object;
+    [SerializeField]
+    private GameObject room6_Object;
+    [SerializeField]
+    private GameObject room7_Object;
+    [SerializeField]
+    private GameObject room8_Object;
+    [SerializeField]
+    private GameObject room9_Object;
+    [SerializeField]
+    private GameObject room10_Object;
+    [SerializeField]
+    private GameObject room11_Object;
+    [SerializeField]
+    private GameObject room12_Object;
+
+    [SerializeField]
+    private GameObject bossRoom_Object;
+    
+
+    private GameObject _currentRoom;
+
+
     [SerializeField]
     private Light _ambientLight;
 
@@ -86,12 +119,9 @@ public class GameSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        switch (_currentRoomId)
-        {
-            case RoomId.Entrance:
-                InitRoom();
-                break;
-        }        
+        InitRoom();
+        _currentRoom = Instantiate(room1_Object);
+
     }
 
     // Update is called once per frame
@@ -153,26 +183,26 @@ public class GameSystem : MonoBehaviour
     void InitRoom()
     {
         _bat = Instantiate(_bat);
-        _bat.GetComponent<BatDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
 
-        _bat2 = Instantiate(_bat2);
+        //_bat = Instantiate(_bat);
         //_bat2.transform.position = new Vector3(1.0f, 1.5f, 0f);
-        _bat2.GetComponent<BatDamage>().playerHealth = _player.GetComponent <PlayerHealth>();
+        //_bat.GetComponent<BatController>().ChangePos(new Vector2(0.0f, -20.0f));
 
-        _skeleton = Instantiate(_skeleton);
-        _skeleton.GetComponentInChildren<SkeletonDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
+        //_skeleton = Instantiate(_skeleton);
+        //_skeleton.GetComponentInChildren<SkeletonDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
 
-        _slug = Instantiate(_slug);
-        _slug.GetComponent<SlugDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
+        //_slug = Instantiate(_slug);
+        //_slug.GetComponent<SlugDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
 
-        _scorpion = Instantiate(_scorpion);
-        _scorpion.GetComponentInChildren<ScorpionHitDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
+        //_scorpion = Instantiate(_scorpion);
+        //_scorpion.GetComponentInChildren<ScorpionHitDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
     }
 
     private void UpdateCurrentRoomId()
     {
         var pos = _player.GetComponent<PlayerController>().PlayerPos;
         var hasChanged = false;
+        var previousRoom = _currentRoom;
 
         // TODO: make adjustments to rooms boundaries as soon as we have the final Player model,
         // now they are not precise enough as Player center is at the mass center
@@ -181,7 +211,9 @@ public class GameSystem : MonoBehaviour
             case RoomId.Entrance:
                 if (pos.z >= -18.5f)
                 {
+                    _currentRoom.GetComponent<Room1>().DestroyRoom();
                     _currentRoomId = RoomId.Room2;
+                    _currentRoom = room2_Object;
                     _camera.GetComponent<CameraController>().MoveCamera(_currentRoomId);
                     hasChanged = true;
                 }
@@ -191,6 +223,7 @@ public class GameSystem : MonoBehaviour
                 {
                     _currentRoomId = RoomId.Room1;
                     
+
                     hasChanged = true;
                 }
                 if (pos.x <= -8.0f)
@@ -363,7 +396,13 @@ public class GameSystem : MonoBehaviour
         }
 
         if (hasChanged)
+        {
+
+            Destroy(previousRoom);
+            _currentRoom = Instantiate(_currentRoom);
+
             _camera.GetComponent<CameraController>().MoveCamera(_currentRoomId);
+        }
     }
 
     private void UpdateCameraDebugKeys()

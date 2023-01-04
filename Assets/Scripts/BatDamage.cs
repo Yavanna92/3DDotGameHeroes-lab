@@ -10,8 +10,10 @@ public class BatDamage : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            if(playerHealth != null)
-                playerHealth.TakeDamage(4);
+            if(playerHealth == null)
+                playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            playerHealth.TakeDamage(4);
         }
     }
 }

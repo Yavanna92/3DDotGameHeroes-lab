@@ -83,6 +83,13 @@ public class BatController : MonoBehaviour
         Destroy(_batNavMesh);
     }
 
+    public void ChangePos(Vector2 newPos)
+    {
+        var navMeshPos = _batNavMesh.GetComponent<Transform>().position;
+        _batNavMesh.GetComponent<Transform>().position = new Vector3( newPos.x, navMeshPos.y, newPos.y);
+    }
+
+
     // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
     // to be able to attack it
     private Vector3 UpdateOnAttack()

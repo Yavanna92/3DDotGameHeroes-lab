@@ -78,6 +78,11 @@ public class BatController : MonoBehaviour
         _rb.velocity = new Vector3(0.0f, 1.5f, 0.0f);
     }
 
+    private void OnDestroy()
+    {
+        Destroy(_batNavMesh);
+    }
+
     // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
     // to be able to attack it
     private Vector3 UpdateOnAttack()
@@ -94,7 +99,7 @@ public class BatController : MonoBehaviour
 
             case BatAttackState.Falling:
 
-                if (_rb.position.y <= 0.6f)
+                if (_rb.position.y <= 0.5f)
                     _batAttackState = BatAttackState.TargetPoint;
                 else
                     dir = new Vector3(0.0f, -1.5f, 0.0f);
@@ -107,12 +112,12 @@ public class BatController : MonoBehaviour
 
                 if (_vulnerabilityTimer <= 0.001f)
                 {
-                    _rb.MovePosition(new Vector3(_rb.position.x, 0.6f, _rb.position.z));
+                    _rb.MovePosition(new Vector3(_rb.position.x, 0.4f, _rb.position.z));
                 }
 
                 _vulnerabilityTimer += Time.fixedDeltaTime;
 
-                if (_vulnerabilityTimer >= 5f)
+                if (_vulnerabilityTimer >= 40f * Time.fixedDeltaTime)
                     _batAttackState = BatAttackState.Rising;
 
                 break;

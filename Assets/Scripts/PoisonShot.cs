@@ -4,17 +4,28 @@ using UnityEngine;
 
 public class PoisonShot : MonoBehaviour
 {
-    public float life = 3.0f;
+    private PlayerHealth _playerHealth;
 
-    // Update is called once per frame
-    void Awake()
+    private void Start()
     {
-        Destroy(gameObject, life);
+        gameObject.SetActive(false);
     }
 
-    void onCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
-        Destroy(collision.gameObject);
-        Destroy(gameObject);
+        if (collision.gameObject.tag == "Player")
+        {
+            if (_playerHealth == null)
+                _playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            _playerHealth.TakeDamage(1);
+
+        }
+        gameObject.SetActive(false);
+    }
+
+    public void Shoot()
+    {       
+        gameObject.SetActive(true);
     }
 }

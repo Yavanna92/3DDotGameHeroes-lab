@@ -261,9 +261,10 @@ MonoBehaviour:
   playerMask:
     serializedVersion: 2
     m_Bits: 64
+  _anim: {fileID: 0}
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 6
-  timeBetweenAttacks: 1
+  timeBetweenAttacks: 100
   sightRange: 10
   attackRange: 0
   playerInSightRange: 0
@@ -662,7 +663,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.1
+  m_Radius: 0.2
   m_Height: 0.6
   m_Direction: 2
   m_Center: {x: -0.2, y: -0.24999996, z: 0.8125}

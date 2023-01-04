@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class GameUIController : MonoBehaviour
 {
     private GameOverController _gameOverController;
+    private CoinCounter _coinCounter;
 
     // Start is called before the first frame update
     void Start()
     {
         _gameOverController = gameObject.GetComponentInChildren<GameOverController>();
+        _coinCounter = gameObject.GetComponentInChildren<CoinCounter>();
+
     }
 
     // Update is called once per frame

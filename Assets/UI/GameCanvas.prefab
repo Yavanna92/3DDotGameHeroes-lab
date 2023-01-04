@@ -552,9 +552,10 @@ GameObject:
   - component: {fileID: 910729006646200050}
   - component: {fileID: 7925695837693666767}
   - component: {fileID: 6579505776000891177}
+  - component: {fileID: 4487249292331676958}
   m_Layer: 5
   m_Name: KeyCounter
-  m_TagString: Untagged
+  m_TagString: Keys
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -676,6 +677,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &4487249292331676958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3896335940297102371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 004b7282d945c804b9f0cadd0f240d8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4535388871668846912
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,9 +791,10 @@ GameObject:
   - component: {fileID: 569720091185732610}
   - component: {fileID: 8940962645275001340}
   - component: {fileID: 5936840635258950680}
+  - component: {fileID: 1751093402460615013}
   m_Layer: 5
   m_Name: CoinCounter
-  m_TagString: Untagged
+  m_TagString: Coins
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -902,6 +916,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &1751093402460615013
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4649557807996711539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8b24b77292587a4c9643f2967bc3833, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4892036054941359079
 GameObject:
   m_ObjectHideFlags: 0

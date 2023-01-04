@@ -39,6 +39,9 @@ public class GameSystem : MonoBehaviour
 
     private bool _isGameOver;
 
+    private int _coinCounter;
+    private int _keyCounter;
+
     // When instantiating it is strictly necessary to save the instance in the private fields
     // if we need to access to any of the object components
     void Awake()
@@ -67,6 +70,10 @@ public class GameSystem : MonoBehaviour
         _player = Instantiate(_player);
 
         _currentRoomId = RoomId.Entrance;
+
+        _coinCounter = 0;
+        _keyCounter = 0;
+
     }
 
     // Start is called before the first frame update

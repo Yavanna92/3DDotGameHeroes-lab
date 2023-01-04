@@ -49,23 +49,26 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
-            if (dir.x != 0 || dir.z != 0)
+            if (_swordTime <= 0f)
             {
-                Quaternion rot = Quaternion.LookRotation(dir, Vector3.up);
-                _rb.rotation = rot;
+                _sword.SetActive(false);
 
-                _anim.Play("Walk");
+                dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
+                if (dir.x != 0 || dir.z != 0)
+                {
+                    Quaternion rot = Quaternion.LookRotation(dir, Vector3.up);
+                    _rb.rotation = rot;
+
+                    _anim.Play("Walk");
+                }
+            }
+            else
+            {
+                _swordTime -= Time.fixedDeltaTime;
+
             }
         }
-
-        if (_swordTime <= 0f) {
-            _sword.SetActive(false);
-        } else
-        {
-            _swordTime -= Time.fixedDeltaTime;
-        }
-
+          
         _rb.velocity = dir * _speed * Time.fixedDeltaTime;
         PlayerPos = _rb.position;
     }

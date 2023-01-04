@@ -24,18 +24,39 @@ public class SkeletonController : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
+    private bool _movingTowardsX = true;
+
     private void Awake()
     {
-        
         agent = GetComponent<NavMeshAgent>();
         _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     private void Update()
     {
+        var dir = Vector3.zero;
+        var rot = transform.rotation;
+
+        if (rot.w < 45 && rot.w >= 135)
+        {
+            dir = Vector3.right;
+        }
+        else if (rot.w < 135 && rot.w >= 225)
+        {
+            dir = Vector3.back;
+        }
+        else if (rot.w < 225 && rot.w >= 315)
+        {
+            dir = Vector3.left;
+        }
+        else
+        {
+            dir = Vector3.forward;
+        }
+
         //Check for sight and attack range
-        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerMask);
-        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
+        playerInSightRange = Physics.CheckCapsule(transform.position, transform.position + dir * sightRange, 0.8f, playerMask);
+        playerInAttackRange = Physics.CheckCapsule(transform.position, transform.position + dir * attackRange, 0.8f, playerMask);
 
         if (!playerInSightRange && !playerInAttackRange)
             Patroling();
@@ -45,41 +66,55 @@ public class SkeletonController : MonoBehaviour
             Attack();
     }
 
-    
-
     private void Patroling()
     {
+        if (agent.speed > 3.5f)
+            agent.speed = 3.5f;
+
         if (!walkPointSet)
             SearchWalkPoint();
-        else
+        else { 
             agent.SetDestination(walkPoint);
+            transform.LookAt(walkPoint);
+        }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
-        if (distanceToWalkPoint.magnitude < 1f)
+        if (distanceToWalkPoint.magnitude < 1f) {
             walkPointSet = false;
+            _movingTowardsX = !_movingTowardsX;
+        }
     }
 
     private void SearchWalkPoint()
     {
-        float randX = Random.Range(-walkPointRange, walkPointRange);
-        float randZ = Random.Range(-walkPointRange, walkPointRange);
+        float rand = Random.Range(-walkPointRange, walkPointRange);
 
-        walkPoint = new Vector3(transform.position.x + randX, transform.position.y, transform.position.z + randZ);
+        if (_movingTowardsX)
+            walkPoint = new Vector3(transform.position.x + rand, transform.position.y, transform.position.z);
+        else
+            walkPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + rand);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2.0f, groundMask))
+        if (Physics.Raycast(walkPoint, -transform.up, 2.0f, groundMask))            
             walkPointSet = true;
+        
+        else
+            _movingTowardsX = !_movingTowardsX;
     }
 
     private void Chase()
     {
+        if (agent.speed < 8)
+            agent.speed = 8;
+
         agent.SetDestination(_playerTransform.position);
+        transform.LookAt(_playerTransform.position);
     }
 
     private void Attack()
     {
         agent.SetDestination(transform.position);
 
-        transform.LookAt(_playerTransform);
+        transform.LookAt(_playerTransform.position);
 
         if (!alreadyAttacked)
         {

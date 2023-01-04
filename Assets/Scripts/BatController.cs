@@ -30,7 +30,7 @@ public class BatController : MonoBehaviour
     void Start()
     {
         // init state
-        _timer = 0.0f; _cooldown = 10.0f; _isAttacking = false;
+        _timer = 0.0f; _cooldown = 5.0f; _isAttacking = false;
         _vulnerabilityTimer = 0f;
         _batAttackState = BatAttackState.StartingPoint;
 
@@ -111,13 +111,11 @@ public class BatController : MonoBehaviour
                 // and keep it in this position for enough game cycles to make player able to kill it
 
                 if (_vulnerabilityTimer <= 0.001f)
-                {
                     _rb.MovePosition(new Vector3(_rb.position.x, 0.4f, _rb.position.z));
-                }
 
                 _vulnerabilityTimer += Time.fixedDeltaTime;
 
-                if (_vulnerabilityTimer >= 40f * Time.fixedDeltaTime)
+                if (_vulnerabilityTimer >= 15f)
                     _batAttackState = BatAttackState.Rising;
 
                 break;

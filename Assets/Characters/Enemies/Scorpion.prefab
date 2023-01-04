@@ -250,8 +250,8 @@ NavMeshAgent:
   m_GameObject: {fileID: 1174112396010439335}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.9
-  m_Speed: 2
+  m_Radius: 1.08
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 90
@@ -261,7 +261,7 @@ NavMeshAgent:
   m_AutoRepath: 1
   m_Height: 1
   m_BaseOffset: 0.125
-  m_WalkableMask: 4294967295
+  m_WalkableMask: 7
   m_ObstacleAvoidanceType: 4
 --- !u!114 &5908445969012279084
 MonoBehaviour:
@@ -277,7 +277,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletSpawnPoint: {fileID: 6114502209412893577}
   _bulletPrefab: {fileID: 6923940657243870093, guid: eb21e274dfd48e246b1d6042a0f7c27f, type: 3}
-  _bulletSpeed: 10
+  _bulletSpeed: 5
   _cooldown: 200
   _anim: {fileID: 2056492261978996616}
   agent: {fileID: 4509497618813962324}
@@ -288,9 +288,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 2
-  timeBetweenAttacks: 3
-  sightRange: 2
+  walkPointRange: 3
+  timeBetweenAttacks: 5
+  sightRange: 5
   attackRange: 0
   playerInSightRange: 0
   playerInAttackRange: 0
@@ -403,10 +403,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.15
+  m_Radius: 0.2
   m_Height: 1.1875
   m_Direction: 1
-  m_Center: {x: -0.7, y: 0, z: 0.1}
+  m_Center: {x: -0.8, y: 0, z: 0.15}
 --- !u!114 &6254016853764032087
 MonoBehaviour:
   m_ObjectHideFlags: 0

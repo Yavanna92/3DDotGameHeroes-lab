@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 using UnityEngine.AI;
+using Random = UnityEngine.Random;
 
-public class SkeletonController : MonoBehaviour
+public class ScorpionController : MonoBehaviour
 {
+    [SerializeField]
+    private Transform _bulletSpawnPoint;
+
+    [SerializeField]
+    private GameObject _bulletPrefab;
+
+    [SerializeField]
+    public float bulletSpeed;
+
+    [SerializeField]
+    public float cooldown;
+
+    private Rigidbody _bulletRb;
+
+    private float _timer;
+
     public NavMeshAgent agent;
 
     private Transform _playerTransform;
 
     public LayerMask groundMask, playerMask;
-
-    [SerializeField]
-    private Animator _anim;
 
     // patroling
     public Vector3 walkPoint;
@@ -27,43 +42,35 @@ public class SkeletonController : MonoBehaviour
     public float sightRange, attackRange;
     public bool playerInSightRange, playerInAttackRange;
 
-    private bool _movingTowardsX = true;
-
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
         _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        _bulletPrefab = Instantiate(_bulletPrefab);
     }
 
-    private void Start()
+    void Start()
     {
-        _anim = GetComponent<Animator>();
+        _timer = 0.0f;
+        _bulletRb = _bulletPrefab.GetComponent<Rigidbody>();
     }
+
     private void Update()
     {
-        var dir = Vector3.zero;
-        var rot = transform.rotation;
+        _timer += Time.fixedDeltaTime;
 
-        if (rot.w < 45 && rot.w >= 135)
+        if (_timer >= cooldown * Time.fixedDeltaTime)
         {
-            dir = Vector3.right;
-        }
-        else if (rot.w < 135 && rot.w >= 225)
-        {
-            dir = Vector3.back;
-        }
-        else if (rot.w < 225 && rot.w >= 315)
-        {
-            dir = Vector3.left;
-        }
-        else
-        {
-            dir = Vector3.forward;
+            _bulletPrefab.GetComponent<PoisonShot>().Shoot();
+            _bulletRb.MovePosition(_bulletSpawnPoint.position);
+            _bulletRb.MoveRotation(_bulletSpawnPoint.rotation);
+            _bulletRb.velocity = _bulletSpawnPoint.forward * bulletSpeed;
+            _timer = 0.0f;
         }
 
         //Check for sight and attack range
-        playerInSightRange = Physics.CheckCapsule(transform.position, transform.position + dir * sightRange, 0.8f, playerMask);
-        playerInAttackRange = Physics.CheckCapsule(transform.position, transform.position + dir * attackRange, 0.8f, playerMask);
+        playerInSightRange = Physics.CheckSphere(transform.position, sightRange, playerMask);
+        playerInAttackRange = Physics.CheckSphere(transform.position, attackRange, playerMask);
 
         if (!playerInSightRange && !playerInAttackRange)
             Patroling();
@@ -75,45 +82,33 @@ public class SkeletonController : MonoBehaviour
 
     private void Patroling()
     {
-        if (agent.speed > 3.5f)
-            agent.speed = 3.5f;
-
         if (!walkPointSet)
             SearchWalkPoint();
-        else { 
+        else
+        {
             agent.SetDestination(walkPoint);
             transform.LookAt(walkPoint);
-            _anim.Play("Walk");
         }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
-        if (distanceToWalkPoint.magnitude < 1f) {
+
+        if (distanceToWalkPoint.magnitude < 1f)
             walkPointSet = false;
-            _movingTowardsX = !_movingTowardsX;
-        }
     }
 
     private void SearchWalkPoint()
     {
-        float rand = Random.Range(-walkPointRange, walkPointRange);
+        float randX = Random.Range(-walkPointRange, walkPointRange);
+        float randZ = Random.Range(-walkPointRange, walkPointRange);
 
-        if (_movingTowardsX)
-            walkPoint = new Vector3(transform.position.x + rand, transform.position.y, transform.position.z);
-        else
-            walkPoint = new Vector3(transform.position.x, transform.position.y, transform.position.z + rand);
+        walkPoint = new Vector3(transform.position.x + randX, transform.position.y, transform.position.z + randZ);
 
-        if (Physics.Raycast(walkPoint, -transform.up, 2.0f, groundMask))            
+        if (Physics.Raycast(walkPoint, -transform.up, 2.0f, groundMask))
             walkPointSet = true;
-        
-        else
-            _movingTowardsX = !_movingTowardsX;
     }
 
     private void Chase()
     {
-        if (agent.speed < 8)
-            agent.speed = 8;
-
         agent.SetDestination(_playerTransform.position);
         transform.LookAt(_playerTransform.position);
     }
@@ -123,8 +118,6 @@ public class SkeletonController : MonoBehaviour
         agent.SetDestination(transform.position);
 
         transform.LookAt(_playerTransform.position);
-
-        _anim.Play("Attack");
 
         if (!alreadyAttacked)
         {

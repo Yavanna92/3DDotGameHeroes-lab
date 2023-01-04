@@ -43,7 +43,13 @@ public class PlayerController : MonoBehaviour
         var dir = new Vector3(0f, 0f, 0f);
         if (Input.GetKey(KeyCode.Space))
         {
+            // reset the sword transform
+            _sword.transform.localPosition = new Vector3(0.0f, 0.5f, 0.5f);
+            _sword.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+
             _sword.SetActive(true);
+
+            // hardcoded 60f correspond to the attack animation duration
             _swordTime = Time.fixedDeltaTime * 60f;
             _anim.Play("Attack");
         }

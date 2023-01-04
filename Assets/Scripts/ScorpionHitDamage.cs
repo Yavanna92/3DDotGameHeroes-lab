@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SkeletonDamage : MonoBehaviour
+public class ScorpionHitDamage : MonoBehaviour
 {
     public PlayerHealth playerHealth;
 
@@ -11,9 +11,7 @@ public class SkeletonDamage : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             if (playerHealth != null)
-                playerHealth.TakeDamage(2);
-
-            gameObject.GetComponentInParent<SkeletonController>().SetAlreadyAttacked();
+                playerHealth.TakeDamage(1);
         }
     }
 }

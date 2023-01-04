@@ -18,7 +18,6 @@ public class BatController : MonoBehaviour
     [SerializeField]
     private GameObject _batNavMesh;
 
-    public Vector2 InitialPos { get; set; }
 
     private void Awake()
     {
@@ -38,7 +37,8 @@ public class BatController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         // place enemy
-        _rb.position = new Vector3(0.0f, 1.5f, -21.0f);
+        _rb.position = new Vector3(_rb.position.x, 1.5f, _rb.position.z);
+        //_batNavMesh.GetComponent<Transform>().position = new Vector3(_rb.position.x, 0.07f, _rb.position.z);
     }
 
     // Update is called once per frame

@@ -21,6 +21,7 @@ public class GameSystem : MonoBehaviour
 
     [SerializeField]
     private GameObject _bat;
+    private GameObject _bat2;
 
     [SerializeField]
     private GameObject _skeleton;
@@ -153,6 +154,10 @@ public class GameSystem : MonoBehaviour
     {
         _bat = Instantiate(_bat);
         _bat.GetComponent<BatDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
+
+        _bat2 = Instantiate(_bat2);
+        //_bat2.transform.position = new Vector3(1.0f, 1.5f, 0f);
+        _bat2.GetComponent<BatDamage>().playerHealth = _player.GetComponent <PlayerHealth>();
 
         _skeleton = Instantiate(_skeleton);
         _skeleton.GetComponentInChildren<SkeletonDamage>().playerHealth = _player.GetComponent<PlayerHealth>();

@@ -78,6 +78,11 @@ public class BatController : MonoBehaviour
         _rb.velocity = new Vector3(0.0f, 1.5f, 0.0f);
     }
 
+    private void OnDestroy()
+    {
+        Destroy(_batNavMesh);
+    }
+
     // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
     // to be able to attack it
     private Vector3 UpdateOnAttack()

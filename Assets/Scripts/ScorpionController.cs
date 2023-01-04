@@ -14,10 +14,13 @@ public class ScorpionController : MonoBehaviour
     private GameObject _bulletPrefab;
 
     [SerializeField]
-    public float bulletSpeed;
+    private float _bulletSpeed;
 
     [SerializeField]
-    public float cooldown;
+    private float _cooldown;
+
+    [SerializeField]
+    public Animator _anim;
 
     private Rigidbody _bulletRb;
 
@@ -59,12 +62,13 @@ public class ScorpionController : MonoBehaviour
     {
         _timer += Time.fixedDeltaTime;
 
-        if (_timer >= cooldown * Time.fixedDeltaTime)
+        if (_timer >= _cooldown * Time.fixedDeltaTime)
         {
             _bulletPrefab.GetComponent<PoisonShot>().Shoot();
             _bulletRb.MovePosition(_bulletSpawnPoint.position);
             _bulletRb.MoveRotation(_bulletSpawnPoint.rotation);
-            _bulletRb.velocity = _bulletSpawnPoint.forward * bulletSpeed;
+            _bulletRb.velocity = _bulletSpawnPoint.forward * _bulletSpeed;
+
             _timer = 0.0f;
         }
 

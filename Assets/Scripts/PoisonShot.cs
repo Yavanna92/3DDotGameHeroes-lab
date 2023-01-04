@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PoisonShot : MonoBehaviour
 {
-    public PlayerHealth playerHealth;
+    private PlayerHealth _playerHealth;
 
     private void Start()
     {
@@ -15,8 +15,11 @@ public class PoisonShot : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (playerHealth != null)
-                playerHealth.TakeDamage(1);
+            if (_playerHealth == null)
+                _playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+
+            _playerHealth.TakeDamage(1);
+
         }
         gameObject.SetActive(false);
     }

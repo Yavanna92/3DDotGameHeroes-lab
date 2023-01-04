@@ -55,6 +55,8 @@ public class ScorpionController : MonoBehaviour
     void Start()
     {
         _timer = 0.0f;
+        _anim = GetComponent<Animator>();
+        gameObject.GetComponentInChildren<CapsuleCollider>().enabled = false;
         _bulletRb = _bulletPrefab.GetComponent<Rigidbody>();
     }
 
@@ -84,6 +86,11 @@ public class ScorpionController : MonoBehaviour
             Attack();
     }
 
+    public void SetAlreadyAttacked()
+    {
+        alreadyAttacked = true;
+    }
+
     private void Patroling()
     {
         if (!walkPointSet)
@@ -92,6 +99,7 @@ public class ScorpionController : MonoBehaviour
         {
             agent.SetDestination(walkPoint);
             transform.LookAt(walkPoint);
+            _anim.Play("Walk");
         }
 
         Vector3 distanceToWalkPoint = transform.position - walkPoint;
@@ -113,6 +121,8 @@ public class ScorpionController : MonoBehaviour
 
     private void Chase()
     {
+        _anim.Play("Walk");
+
         agent.SetDestination(_playerTransform.position);
         transform.LookAt(_playerTransform.position);
     }
@@ -123,14 +133,19 @@ public class ScorpionController : MonoBehaviour
 
         transform.LookAt(_playerTransform.position);
 
-        if (!alreadyAttacked)
+        gameObject.GetComponentInChildren<CapsuleCollider>().enabled = true;
+
+        if (alreadyAttacked)
         {
-            alreadyAttacked = true;
             Invoke(nameof(ResetAttack), timeBetweenAttacks);
         }
     }
     private void ResetAttack()
     {
+        gameObject.GetComponentInChildren<CapsuleCollider>().enabled = false;
+
+        _anim.Play("Idle");
+
         alreadyAttacked = false;
     }
 }

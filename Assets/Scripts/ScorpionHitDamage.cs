@@ -13,5 +13,7 @@ public class ScorpionHitDamage : MonoBehaviour
             if (playerHealth != null)
                 playerHealth.TakeDamage(1);
         }
+
+        gameObject.GetComponentInParent<ScorpionController>().SetAlreadyAttacked();
     }
 }

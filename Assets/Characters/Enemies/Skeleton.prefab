@@ -263,7 +263,7 @@ MonoBehaviour:
     m_Bits: 64
   _anim: {fileID: 0}
   walkPoint: {x: 0, y: 0, z: 0}
-  walkPointRange: 6
+  walkPointRange: 5
   timeBetweenAttacks: 100
   sightRange: 10
   attackRange: 0

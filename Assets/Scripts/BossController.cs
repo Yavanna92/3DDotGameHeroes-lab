@@ -91,7 +91,11 @@ public class BossController : MonoBehaviour
             _bulletRb.velocity = _bulletSpawnPoint.forward * _bulletSpeed;
 
             _timer = 0.0f;
+            gameObject.GetComponent<Animator>().enabled = true;
         }
+
+        if (_timer <= (_cooldown * Time.fixedDeltaTime) / 2)
+            gameObject.GetComponent<Animator>().enabled = false;
 
         //Check for sight and attack range
         _playerInSightRange = Physics.CheckSphere(transform.position, _sightRange, _playerMask);

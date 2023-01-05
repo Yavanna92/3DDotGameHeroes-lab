@@ -281,7 +281,7 @@ GameObject:
   - component: {fileID: 442098904814708093}
   m_Layer: 0
   m_Name: CreditsGameObject
-  m_TagString: Untagged
+  m_TagString: Credits
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1712,7 +1712,7 @@ GameObject:
   - component: {fileID: 1956037903367212801}
   m_Layer: 0
   m_Name: MenuGameObject
-  m_TagString: Untagged
+  m_TagString: Menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1884,7 +1884,7 @@ GameObject:
   - component: {fileID: 6139785023317796690}
   m_Layer: 0
   m_Name: InstructionsGameObject
-  m_TagString: Untagged
+  m_TagString: Instructions
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -135,11 +135,11 @@ public class GameSystem : MonoBehaviour
         _gameUiCanvas = Instantiate(_gameUiCanvas);
         _menuButton = _gameUiCanvas.GetComponentInChildren<Button>();
         _mainMenuCanvas = Instantiate(_mainMenuCanvas);
-        _startButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[0];
-        _instructionsButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[1];
-        _creditsButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[2];
-        _instMenuButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[1].GetComponentInChildren<Button>();
-        _creditsButton = _credMenuButton.GetComponentsInChildren<GameObject>()[2].GetComponentInChildren<Button>();
+        _startButton = _mainMenuCanvas.GetComponentsInChildren<Button>()[0];
+        _instructionsButton = _mainMenuCanvas.GetComponentsInChildren<Button>()[1];
+        _creditsButton = _mainMenuCanvas.GetComponentsInChildren<Button>()[2];
+        _instMenuButton = _mainMenuCanvas.GetComponentsInChildren<Button>()[3];
+        //_creditsButton = _credMenuButton.GetComponentsInChildren<Button>()[4];
 
         _currentRoomId = RoomId.Entrance;
     }

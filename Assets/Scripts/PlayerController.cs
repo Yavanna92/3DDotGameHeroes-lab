@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
 
     private float _swordTime;
 
+    public bool _hasBoomerang;
+
+
     // Start is called before the first frame update
     void Start()
     {

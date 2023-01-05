@@ -86,7 +86,8 @@ public class BatController : MonoBehaviour
     public void ChangePos(Vector2 newPos)
     {
         var navMeshPos = _batNavMesh.GetComponent<Transform>().position;
-        _batNavMesh.GetComponent<Transform>().position = new Vector3( newPos.x, navMeshPos.y, newPos.y);
+        //_batNavMesh.GetComponent<Transform>().position = new Vector3( newPos.x, navMeshPos.y, newPos.y);
+        _batNavMesh.GetComponent<BatNavMeshController>().PlaceBat(new Vector3(newPos.x, navMeshPos.y, newPos.y));
     }
 
 

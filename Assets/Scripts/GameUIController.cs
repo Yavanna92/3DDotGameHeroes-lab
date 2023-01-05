@@ -7,13 +7,14 @@ public class GameUIController : MonoBehaviour
 {
     private GameOverController _gameOverController;
     private CoinCounter _coinCounter;
+    private BoomerangUIController _boomerangUIController;
 
     // Start is called before the first frame update
     void Start()
     {
         _gameOverController = gameObject.GetComponentInChildren<GameOverController>();
         _coinCounter = gameObject.GetComponentInChildren<CoinCounter>();
-
+        _boomerangUIController = gameObject.GetComponentInChildren<BoomerangUIController>();
     }
 
     // Update is called once per frame
@@ -38,4 +39,10 @@ public class GameUIController : MonoBehaviour
     {
         _gameOverController.Clear();
     }
+
+    public void ActivateBoomerang()
+    {
+        _boomerangUIController.Activate();
+    }
+
 }

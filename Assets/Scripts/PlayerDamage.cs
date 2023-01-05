@@ -15,5 +15,9 @@ public class PlayerDamage : MonoBehaviour
             if (health != null)
                 health.RemoveHealth();
         }
+        if (collision.gameObject.CompareTag("Activation"))
+        {
+            collision.gameObject.GetComponent<ActivationController>().Activate();
+        }
     }
 }

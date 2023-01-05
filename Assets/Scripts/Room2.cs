@@ -14,9 +14,6 @@ public class Room2 : MonoBehaviour
     private GameObject _skeleton1;
     private GameObject _skeleton2;
 
-    private GameObject _PuzzleWall1;
-    private GameObject _PuzzleWall2;
-
     private Vector3 roomCenter;
 
     // Start is called before the first frame update
@@ -26,9 +23,9 @@ public class Room2 : MonoBehaviour
         roomCenter = gameObject.GetComponent<Transform>().position;
 
         _skeleton1 = Instantiate(skeletonObject);
-        _skeleton1.GetComponent<BatController>().ChangePos(new Vector2(roomCenter.x + 0.0f, roomCenter.z + 0.0f));
+        _skeleton1.GetComponent<SkeletonController>().ChangePos(new Vector2(roomCenter.x - 6.0f, roomCenter.z + 0.0f));
         _skeleton2 = Instantiate(skeletonObject);
-        _skeleton2.GetComponent<BatController>().ChangePos(new Vector2(roomCenter.x + 0.0f, roomCenter.z + 0.0f));
+        _skeleton2.GetComponent<SkeletonController>().ChangePos(new Vector2(roomCenter.x + 6.0f, roomCenter.z + 0.0f));
 
 
     }

@@ -224,17 +224,17 @@ MonoBehaviour:
   _camera: {fileID: 102611228400753643, guid: dc368ae3c9927a241becec31fab7ed52, type: 3}
   room1_Object: {fileID: 316213424073513336, guid: 188abd26a5fda7e4fa6191fa2f4d6ec4, type: 3}
   room2_Object: {fileID: 4122876517202750341, guid: 656a6a6e8cf227c448c8e8b34b38fc32, type: 3}
-  room3_Object: {fileID: 0}
-  room4_Object: {fileID: 0}
-  room5_Object: {fileID: 0}
-  room6_Object: {fileID: 0}
-  room7_Object: {fileID: 0}
-  room8_Object: {fileID: 0}
-  room9_Object: {fileID: 0}
-  room10_Object: {fileID: 0}
-  room11_Object: {fileID: 0}
-  room12_Object: {fileID: 0}
-  bossRoom_Object: {fileID: 0}
+  room3_Object: {fileID: 4988212451946168781, guid: 735c96a067075dc41ae9bfbd2316ca36, type: 3}
+  room4_Object: {fileID: 3166979185508454894, guid: 6dc0da18676b74048a9e4a1f61f92a23, type: 3}
+  room5_Object: {fileID: 3817892390294326261, guid: c598b0439e81ea24d9e94067f3b4d917, type: 3}
+  room6_Object: {fileID: 1946814405520494704, guid: ec58746663176a145afba1ec0cb4b5cc, type: 3}
+  room7_Object: {fileID: 8965847797610970298, guid: a426aacfab5c9084a9e1a4704714d7a1, type: 3}
+  room8_Object: {fileID: 6934160623962411514, guid: bafc058016963d546b105ffad7fc0d4d, type: 3}
+  room9_Object: {fileID: 8981833156571686886, guid: 80b34c8d8d9c94649973160847c44514, type: 3}
+  room10_Object: {fileID: 2424604863590011909, guid: 193b94d5e2999914fb92f1d689802367, type: 3}
+  room11_Object: {fileID: 6706122536036005246, guid: 217dbfa15a5bf4d419d501715f53fa8c, type: 3}
+  room12_Object: {fileID: 3229501176274166544, guid: 20c64e6d210ce3f4a945aab51de2dd1f, type: 3}
+  bossRoom_Object: {fileID: 4061816737788814239, guid: 827285341894ff749aeed1a3699cec6c, type: 3}
   _ambientLight: {fileID: 4439616748888445125, guid: dbf4246c02fca03458c269d41b21ee31, type: 3}
   _bat: {fileID: 3973940500463333691, guid: 0857cdf61fd7f4149a66c8cb133a160f, type: 3}
   _skeleton: {fileID: 1186193903104432053, guid: 5619634a0fcbbad4f9d9332f1ddc709b, type: 3}
@@ -242,6 +242,7 @@ MonoBehaviour:
   _scorpion: {fileID: 1174112396010439335, guid: 9e210e976dc87b344831f8889e6354b9, type: 3}
   _gameUiCanvas: {fileID: 1022520543252489386, guid: a1e7979126f494d4ea8183b3c2b39a51, type: 3}
   _mainMenuCanvas: {fileID: 1966592484583350306, guid: 3d900fd36360ab74192647f6a9976982, type: 3}
+  _chest: {fileID: 5516658697258037908, guid: f06c1d1064b2d7646b0f7f00b37375b7, type: 3}
 --- !u!4 &1390513059
 Transform:
   m_ObjectHideFlags: 0

@@ -96,4 +96,10 @@ public class BatNavMeshController : MonoBehaviour
         if (_playerInAttackRange)
             transform.LookAt(_playerTransform);
     }
+
+    public void PlaceBat(Vector3 pos)
+    {
+        gameObject.transform.position = pos;
+    }
+
 }

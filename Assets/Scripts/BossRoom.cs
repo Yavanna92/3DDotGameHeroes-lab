@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoosRoom : MonoBehaviour
+public class BossRoom : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -15,4 +15,10 @@ public class BoosRoom : MonoBehaviour
     {
         
     }
+
+    public void DestroyRoom()
+    {
+        Destroy(gameObject);
+    }
+
 }

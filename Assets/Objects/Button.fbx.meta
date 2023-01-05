@@ -62,7 +62,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 1
     - serializedVersion: 16
-      name: Pressing
+      name: Activate
       takeName: Scene
       internalID: -8800838248204228948
       firstFrame: 10

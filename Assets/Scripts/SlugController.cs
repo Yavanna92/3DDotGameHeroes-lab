@@ -93,4 +93,9 @@ public class SlugController : MonoBehaviour
     {
         alreadyAttacked = false;
     }
+
+    public void ChangePos(Vector2 newPos)
+    {
+        gameObject.transform.position = new Vector3(newPos.x, 0.0f, newPos.y);
+    }
 }

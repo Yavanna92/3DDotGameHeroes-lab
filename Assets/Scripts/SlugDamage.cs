@@ -5,14 +5,16 @@ using UnityEngine.AI;
 
 public class SlugDamage : MonoBehaviour
 {
-    public PlayerHealth playerHealth;
+    private PlayerHealth _playerHealth;
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (playerHealth != null)
-                playerHealth.TakeDamage(2);
+            if (_playerHealth == null)
+                _playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+            
+            _playerHealth.TakeDamage(2);
         }
     }
 }

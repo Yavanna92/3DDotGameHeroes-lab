@@ -8,7 +8,6 @@ using UnityEngine;
 
 public class CoinCounter : MonoBehaviour
 {
-
     public int Coins { get; private set; }
     private TextMeshProUGUI _cc;
 

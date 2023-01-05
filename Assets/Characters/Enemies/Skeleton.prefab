@@ -264,7 +264,7 @@ MonoBehaviour:
   _anim: {fileID: 0}
   walkPoint: {x: 0, y: 0, z: 0}
   walkPointRange: 5
-  timeBetweenAttacks: 100
+  timeBetweenAttacks: 15
   sightRange: 10
   attackRange: 0
   playerInSightRange: 0
@@ -278,9 +278,9 @@ NavMeshAgent:
   m_GameObject: {fileID: 1186193903104432053}
   m_Enabled: 1
   m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 2.5
-  m_Acceleration: 5
+  m_Radius: 0.46
+  m_Speed: 3.5
+  m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 0
   m_StoppingDistance: 0
@@ -303,7 +303,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b824ef7a496a54cacf629484ac2a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 2
+  health: 3
+  _healthObject: {fileID: 755127140576693338, guid: 64abc1edbe2372e42a2eb1f49213ff95, type: 3}
+  _coinObject: {fileID: 2706613585632326370, guid: 7906afe0b133e5e4e9744c9b7521c490, type: 3}
 --- !u!1 &1674001282497058944
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,7 +654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5289b1fe61ccd458bf49cfb1f1fe3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
 --- !u!136 &4576331219117271351
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -663,7 +664,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.2
+  m_Radius: 0.26
   m_Height: 0.6
   m_Direction: 2
-  m_Center: {x: -0.2, y: -0.24999996, z: 0.8125}
+  m_Center: {x: -0.3, y: -0.24999996, z: 0.8125}

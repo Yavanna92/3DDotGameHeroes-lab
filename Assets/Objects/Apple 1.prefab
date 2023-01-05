@@ -12,11 +12,12 @@ GameObject:
   - component: {fileID: 3935806445268490565}
   - component: {fileID: 1259385369107574159}
   - component: {fileID: 3144547312414488108}
+  - component: {fileID: 7864769298511547253}
   - component: {fileID: 6195691959019317453}
   - component: {fileID: 8513254455887617721}
   - component: {fileID: 4922574921519218205}
   m_Layer: 0
-  m_Name: Apple
+  m_Name: Apple 1
   m_TagString: HealthObject
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -102,6 +103,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.5, y: 0.5, z: 0.5}
   m_Center: {x: 0, y: 0, z: 0.25}
+--- !u!95 &7864769298511547253
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 755127140576693338}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 3347888d5fa8e204faff11f857cdae26, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &6195691959019317453
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,7 +149,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 14
+  m_Constraints: 0
   m_CollisionDetection: 0
 --- !u!114 &4922574921519218205
 MonoBehaviour:

@@ -30,6 +30,11 @@ public class SlugController : MonoBehaviour
         _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
+    private void Start()
+    {
+        gameObject.GetComponentInChildren<CapsuleCollider>().enabled = false;
+    }
+
     private void Update()
     {
         //Check for sight and attack range
@@ -83,6 +88,8 @@ public class SlugController : MonoBehaviour
 
         transform.LookAt(_playerTransform.position);
 
+        gameObject.GetComponentInChildren<CapsuleCollider>().enabled = true;
+
         if (!alreadyAttacked)
         {
             alreadyAttacked = true;
@@ -91,6 +98,8 @@ public class SlugController : MonoBehaviour
     }
     private void ResetAttack()
     {
+        gameObject.GetComponentInChildren<CapsuleCollider>().enabled = false;
+
         alreadyAttacked = false;
     }
 

@@ -90,6 +90,8 @@ public class GameSystem : MonoBehaviour
     private int _coinCounter;
     private int _keyCounter;
 
+    public int PlayerHealth { get; private set; }
+
     // When instantiating it is strictly necessary to save the instance in the private fields
     // if we need to access to any of the object components
     void Awake()
@@ -123,7 +125,7 @@ public class GameSystem : MonoBehaviour
 
         _currentRoomId = RoomId.Entrance;
 
-
+        PlayerHealth = 10;
     }
 
     // Start is called before the first frame update
@@ -142,6 +144,7 @@ public class GameSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerHealth = _player.GetComponent<PlayerHealth>().Health;
         UpdateCurrentRoomId();
         UpdateCameraDebugKeys();
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);

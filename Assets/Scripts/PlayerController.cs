@@ -21,6 +21,8 @@ public class PlayerController : MonoBehaviour
 
     private GameObject _sword;
 
+    private GameObject _hugeSword;
+
     private float _swordTime;
 
     public bool _hasBoomerang;
@@ -37,6 +39,10 @@ public class PlayerController : MonoBehaviour
 
         _sword.SetActive(false);
 
+        _hugeSword = GameObject.FindGameObjectWithTag("HugeSword");
+
+        _hugeSword.SetActive(false);
+
         _swordTime = 0;
     }
 
@@ -46,11 +52,22 @@ public class PlayerController : MonoBehaviour
         var dir = new Vector3(0f, 0f, 0f);
         if (Input.GetKey(KeyCode.Space))
         {
-            // reset the sword transform
-            _sword.transform.localPosition = new Vector3(0.0f, 0.5f, 0.5f);
-            _sword.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+            if (GameSystem.Instance.PlayerHealth == 10)
+            {
+                // reset the sword transform
+                _hugeSword.transform.localPosition = new Vector3(0.0f, 0.65f, 0.5f);
+                _hugeSword.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
-            _sword.SetActive(true);
+                _hugeSword.SetActive(true);
+            }
+            else
+            {
+                // reset the sword transform
+                _sword.transform.localPosition = new Vector3(0.0f, 0.5f, 0.5f);
+                _sword.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
+
+                _sword.SetActive(true);
+            }
 
             // hardcoded 60f correspond to the attack animation duration
             _swordTime = Time.fixedDeltaTime * 60f;
@@ -60,7 +77,10 @@ public class PlayerController : MonoBehaviour
         {
             if (_swordTime <= 0f)
             {
-                _sword.SetActive(false);
+                if (GameSystem.Instance.PlayerHealth == 10)
+                    _hugeSword.SetActive(false);
+                else
+                    _sword.SetActive(false);
 
                 dir = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
                 if (dir.x != 0 || dir.z != 0)
@@ -74,7 +94,6 @@ public class PlayerController : MonoBehaviour
             else
             {
                 _swordTime -= Time.fixedDeltaTime;
-
             }
         }
           

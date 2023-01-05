@@ -63,7 +63,6 @@ public class PlayerController : MonoBehaviour
 
         _boomerangPrefab.GetComponent<BoomerangController>().Speed = _boomerangSpeed;
         _boomerangPrefab.GetComponent<BoomerangController>().ParentTransform = _boomerangSpawnPoint;
-        //_boomerangPrefab.GetComponent<BoomerangController>().SetInactive();
     }
 
     // Update is called once per frame
@@ -87,6 +86,14 @@ public class PlayerController : MonoBehaviour
                 _sword.transform.localRotation = Quaternion.Euler(90f, 0f, 0f);
 
                 _sword.SetActive(true);
+            }
+
+            if (_sword.activeSelf && _hugeSword.activeSelf)
+            {
+                if (GameSystem.Instance.PlayerHealth == 10)
+                    _sword.SetActive(false);
+                else
+                    _hugeSword.SetActive(false);
             }
 
             // hardcoded 60f correspond to the attack animation duration

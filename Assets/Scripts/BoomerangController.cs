@@ -15,7 +15,7 @@ public class BoomerangController : MonoBehaviour
     public float Speed { get; set; }
 
     private void Awake()
-    {
+    {   
         gameObject.SetActive(false);
     }
 

@@ -22,7 +22,7 @@ public class BatController : MonoBehaviour
     private void Awake()
     {
         // init AI -> instantiate NavMesh
-        _batNavMesh = Instantiate(_batNavMesh);
+        _batNavMesh = Instantiate(_batNavMesh, new Vector3(gameObject.transform.position.x, 0.05f, gameObject.transform.position.z), gameObject.transform.rotation);
     }
 
     // Start is called before the first frame update

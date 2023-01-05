@@ -24,10 +24,9 @@ public class Room1 : MonoBehaviour
     {
         roomCenter = gameObject.GetComponent<Transform>().position;
 
-        _bat1 = Instantiate(batObject);
-        _bat1.GetComponent<BatController>().ChangePos(new Vector2(roomCenter.x - 6.0f, roomCenter.z + 0.0f));
-        _bat2 = Instantiate(batObject);
-        _bat2.GetComponent<BatController>().ChangePos(new Vector2(roomCenter.x + 10.0f, roomCenter.z - 3.0f));
+        _bat1 = Instantiate(batObject, new Vector3(roomCenter.x - 6.0f, 1.5f, roomCenter.z + 0.0f), Quaternion.identity);
+        _bat2 = Instantiate(batObject, new Vector3(roomCenter.x - 0.5f, 1.5f, roomCenter.z + 1.5f), Quaternion.identity);
+
 
         _PuzzleWall1 = Instantiate(movableBlockObject);
         _PuzzleWall1.GetComponent<Rigidbody>().MovePosition(new Vector3(roomCenter.x - 0.5f,0f, roomCenter.z + 1.5f));

@@ -99,7 +99,9 @@ public class BatNavMeshController : MonoBehaviour
 
     public void PlaceBat(Vector3 pos)
     {
-        gameObject.transform.position = pos;
+        gameObject.GetComponent<NavMeshAgent>().updatePosition = false;
+        gameObject.GetComponent<NavMeshAgent>().nextPosition = pos;
+        gameObject.GetComponent<NavMeshAgent>().updatePosition = true;
     }
 
 }

@@ -19,21 +19,11 @@ public class Room2 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         roomCenter = gameObject.GetComponent<Transform>().position;
 
-        _skeleton1 = Instantiate(skeletonObject);
-        _skeleton1.GetComponent<SkeletonController>().ChangePos(new Vector2(roomCenter.x - 6.0f, roomCenter.z + 0.0f));
-        _skeleton2 = Instantiate(skeletonObject);
-        _skeleton2.GetComponent<SkeletonController>().ChangePos(new Vector2(roomCenter.x + 6.0f, roomCenter.z + 0.0f));
+        _skeleton1 = Instantiate(skeletonObject, new Vector3(roomCenter.x - 6.0f, 0f, roomCenter.z + 0.0f), Quaternion.identity);
 
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _skeleton2 = Instantiate(skeletonObject, new Vector3(roomCenter.x + 6.0f, 0f, roomCenter.z + 0.0f), Quaternion.identity);
     }
 
     public void DestroyRoom()

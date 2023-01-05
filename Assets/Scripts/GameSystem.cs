@@ -256,7 +256,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.z >= -5.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
                     _currentRoom.GetComponent<Room2>().DestroyRoom();
                     _currentRoomId = RoomId.Room6;
@@ -266,7 +266,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room3:
-                if (pos.x > -8.0f)
+                if (pos.x > roomCenter.x + 8.5f)
                 {
                     _currentRoom.GetComponent<Room3>().DestroyRoom();
                     _currentRoomId = RoomId.Room2;
@@ -274,7 +274,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.z >= -6.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
                     _currentRoom.GetComponent<Room3>().DestroyRoom();
                     _currentRoomId = RoomId.Room4;
@@ -284,7 +284,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room4:
-                if (pos.z < -6.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
                     _currentRoom.GetComponent<Room4>().DestroyRoom();
                     _currentRoomId = RoomId.Room3;
@@ -292,7 +292,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.x <= -24.5f)
+                if (pos.x <= roomCenter.x - 8.5f)
                 {
                     _currentRoom.GetComponent<Room4>().DestroyRoom();
                     _currentRoomId = RoomId.Room5;
@@ -300,7 +300,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.z >= 5.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
                     _currentRoom.GetComponent<Room4>().DestroyRoom();
                     _currentRoomId = RoomId.Room9;
@@ -310,7 +310,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room5:
-                if (pos.x > -24.5f)
+                if (pos.x > roomCenter.x + 8.5f)
                 {
                     _currentRoom.GetComponent<Room5>().DestroyRoom();
                     _currentRoomId = RoomId.Room4;
@@ -320,7 +320,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room6:
-                if (pos.z < -5.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
                     _currentRoom.GetComponent<Room6>().DestroyRoom();
                     _currentRoomId = RoomId.Room2;
@@ -328,7 +328,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.x >= 8.5f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
                     _currentRoom.GetComponent<Room6>().DestroyRoom();
                     _currentRoomId = RoomId.Room7;
@@ -338,7 +338,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room7:
-                if (pos.x < 8.5f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
                     _currentRoom.GetComponent<Room7>().DestroyRoom();
                     _currentRoomId = RoomId.Room6;
@@ -346,15 +346,15 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.z <= -5.5f)
+                if (pos.z <= roomCenter.z - 6.5f)
                 {
                     _currentRoom.GetComponent<Room7>().DestroyRoom();
                     _currentRoomId = RoomId.Room8;
-                    _currentRoom = room6_Object;
+                    _currentRoom = room8_Object;
 
                     hasChanged = true;
                 }
-                if (pos.x >= 24.0f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
                     _currentRoom.GetComponent<Room7>().DestroyRoom();
                     _currentRoomId = RoomId.Room12;
@@ -362,7 +362,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.z >= 5.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
                     _currentRoom.GetComponent<Room7>().DestroyRoom();
                     _currentRoomId = RoomId.Room11;
@@ -372,7 +372,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room8:
-                if (pos.z > -5.5f)
+                if (pos.z > roomCenter.z + 6.5f)
                 {
                     _currentRoom.GetComponent<Room8>().DestroyRoom();
                     _currentRoomId = RoomId.Room7;
@@ -382,7 +382,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room9:
-                if (pos.z < 5.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
                     _currentRoom.GetComponent<Room9>().DestroyRoom();
                     _currentRoomId = RoomId.Room4;
@@ -390,7 +390,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.x >= -8.0f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
                     _currentRoom.GetComponent<Room9>().DestroyRoom();
                     _currentRoomId = RoomId.Room10;
@@ -400,7 +400,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room10:
-                if (pos.x < -8.0f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
                     _currentRoom.GetComponent<Room10>().DestroyRoom();
                     _currentRoomId = RoomId.Room9;
@@ -408,7 +408,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.x >= 8.5f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
                     _currentRoom.GetComponent<Room10>().DestroyRoom();
                     _currentRoomId = RoomId.Room11;
@@ -416,7 +416,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.z >= 17.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
                     _currentRoom.GetComponent<Room10>().DestroyRoom();
                     _currentRoomId = RoomId.BossRoom;
@@ -426,7 +426,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room11:
-                if (pos.x < 8.5f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
                     _currentRoom.GetComponent<Room11>().DestroyRoom();
                     _currentRoomId = RoomId.Room10;
@@ -434,7 +434,7 @@ public class GameSystem : MonoBehaviour
 
                     hasChanged = true;
                 }
-                if (pos.z < 5.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
                     _currentRoom.GetComponent<Room11>().DestroyRoom();
                     _currentRoomId = RoomId.Room7;
@@ -444,7 +444,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room12:
-                if (pos.x < 24.0f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
                     _currentRoom.GetComponent<Room12>().DestroyRoom();
                     _currentRoomId = RoomId.Room7;
@@ -454,7 +454,7 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room13:
-                if (pos.z < 17.5f)
+                if (pos.z < roomCenter.z - 9.5f)
                 {
                     _currentRoom.GetComponent<BossRoom>().DestroyRoom();
                     _currentRoomId = RoomId.Room10;

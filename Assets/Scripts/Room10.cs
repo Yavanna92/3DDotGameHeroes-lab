@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class Room10 : MonoBehaviour
 {
+
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -17,6 +19,7 @@ public class Room10 : MonoBehaviour
     }
     public void DestroyRoom()
     {
+
         Destroy(gameObject);
     }
 }

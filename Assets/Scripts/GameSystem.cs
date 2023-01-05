@@ -85,10 +85,16 @@ public class GameSystem : MonoBehaviour
 
     private bool _isGameOver;
 
-    private bool _hasBoomerang;
+    //private bool _hasBoomerang;
 
     private int _coinCounter;
     private int _keyCounter;
+
+    public int PlayerHealth { get; private set; }
+
+    public bool HasBoomerang { get; private set; }
+
+    public bool GodModeEnabled { get; private set; }
 
     // When instantiating it is strictly necessary to save the instance in the private fields
     // if we need to access to any of the object components
@@ -123,7 +129,9 @@ public class GameSystem : MonoBehaviour
 
         _currentRoomId = RoomId.Entrance;
 
+        PlayerHealth = 10;
 
+        GodModeEnabled = false;
     }
 
     // Start is called before the first frame update
@@ -132,7 +140,7 @@ public class GameSystem : MonoBehaviour
         InitRoom();
         _currentRoom = Instantiate(room1_Object);
 
-        _hasBoomerang = false;
+        HasBoomerang = false;
 
         _coinCounter = 0;
         _keyCounter = 0;
@@ -142,17 +150,19 @@ public class GameSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerHealth = _player.GetComponent<PlayerHealth>().Health;
         UpdateCurrentRoomId();
+        UpdateDebugKeys();
         UpdateCameraDebugKeys();
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
         
-        if (!_hasBoomerang)
+        if (!HasBoomerang)
         {
             if (_chest.GetComponent<ActivationController>().isActive())
             {
-                _player.GetComponent<PlayerController>()._hasBoomerang = true;
+                _player.GetComponent<PlayerController>().SetHasBoomerang(true);
                 _gameUiCanvas.GetComponent<GameUIController>().ActivateBoomerang();
-                _hasBoomerang=true;
+                HasBoomerang = true;
             }
         }
 
@@ -478,6 +488,12 @@ public class GameSystem : MonoBehaviour
 
             _camera.GetComponent<CameraController>().MoveCamera(_currentRoomId);
         }
+    }
+
+    private void UpdateDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+            GodModeEnabled = !GodModeEnabled;
     }
 
     private void UpdateCameraDebugKeys()

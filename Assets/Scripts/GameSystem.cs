@@ -1,7 +1,10 @@
 using Assets.Sources;
+using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.UIElements;
+using Button = UnityEngine.UI.Button;
 
 public class GameSystem : MonoBehaviour
 {
@@ -87,6 +90,11 @@ public class GameSystem : MonoBehaviour
 
     private Button _menuButton;
 
+    private Button _instructionsButton;
+    private Button _instMenuButton;
+    private Button _creditsButton;
+    private Button _credMenuButton;
+
     private RoomId _currentRoomId;
 
     private bool _isGameOver;
@@ -121,7 +129,11 @@ public class GameSystem : MonoBehaviour
         _menuButton = _gameUiCanvas.GetComponentInChildren<Button>();
 
         _mainMenuCanvas = Instantiate(_mainMenuCanvas);
-        _startButton = _mainMenuCanvas.GetComponentInChildren<Button>();
+        _startButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[0];
+        _instructionsButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[1];
+        _creditsButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[2];
+        _instMenuButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[1].GetComponentInChildren<Button>();
+        _creditsButton = _credMenuButton.GetComponentsInChildren<GameObject>()[2].GetComponentInChildren<Button>();
 
         _currentRoomId = RoomId.Entrance;
 
@@ -155,7 +167,7 @@ public class GameSystem : MonoBehaviour
                 if (_keyCounter == 3) _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
                 _keyCounter += 1;
             }
-            else if (Input.GetKeyDown(KeyCode.K))
+            else if (Input.GetKeyDown(KeyCode.B))
             {
                 _door1.gameObject.GetComponent<Animator>().Play("Open");
                 _door2.gameObject.GetComponent<Animator>().Play("Open");
@@ -186,13 +198,52 @@ public class GameSystem : MonoBehaviour
 
     private void OnEnable()
     {
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[0].SetActive(true);
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[1].SetActive(false);
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[2].SetActive(false);
         _startButton.onClick.AddListener(StartGame);
+        _instructionsButton.onClick.AddListener(displayInstructions);
+        _creditsButton.onClick.AddListener(displayCredits);
         _menuButton.onClick.RemoveListener(ShowMenu);
+        _instMenuButton.onClick.RemoveListener(ShowMenu);
+        _credMenuButton.onClick.RemoveListener(ShowMenu);
     }
 
     private void OnDisable()
     {
         _startButton.onClick.RemoveListener(StartGame);
+    }
+
+    private void ShowMenu()
+    {
+        Time.timeScale = 0f;
+
+        _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
+
+        _startButton.gameObject.SetActive(true);
+        _mainMenuCanvas.gameObject.SetActive(true);
+    }
+
+    private void displayInstructions()
+    {
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[0].SetActive(false);
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[1].SetActive(true);
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[2].SetActive(false);
+        _startButton.onClick.RemoveListener(StartGame);
+        _instructionsButton.onClick.RemoveListener(displayInstructions);
+        _creditsButton.onClick.RemoveListener(displayCredits);
+        _instMenuButton.onClick.AddListener(ShowMenu);
+    }
+
+    private void displayCredits()
+    {
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[0].SetActive(false);
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[1].SetActive(false);
+        _gameUiCanvas.GetComponentsInChildren<GameObject>()[2].SetActive(true);
+        _startButton.onClick.RemoveListener(StartGame);
+        _instructionsButton.onClick.RemoveListener(displayInstructions);
+        _creditsButton.onClick.RemoveListener(displayCredits);
+        _credMenuButton.onClick.AddListener(ShowMenu);
     }
 
     private void StartGame()
@@ -263,15 +314,6 @@ public class GameSystem : MonoBehaviour
         Time.timeScale = 1f;
     }
 
-    private void ShowMenu()
-    {
-        Time.timeScale = 0f;
-
-        _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
-
-        _startButton.gameObject.SetActive(true);
-        _mainMenuCanvas.gameObject.SetActive(true);
-    }
 
     void OnGui()
     {

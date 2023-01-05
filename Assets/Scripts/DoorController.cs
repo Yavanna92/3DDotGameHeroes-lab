@@ -21,7 +21,6 @@ public class DoorController : MonoBehaviour
         }
         else if (open && gameObject.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Close"))
         {
-            gameObject.SetActive(true);
             open = false;
         }
     }

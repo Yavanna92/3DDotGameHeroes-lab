@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class BossRoom : MonoBehaviour
 {
+
+    [SerializeField]
+    private GameObject _boss;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _boss = Instantiate(_boss);
     }
 
     // Update is called once per frame
@@ -16,9 +20,9 @@ public class BossRoom : MonoBehaviour
         
     }
 
-    public void DestroyRoom()
+    public void OnDestroy()
     {
-        Destroy(gameObject);
+        Destroy(_boss);
     }
 
 }

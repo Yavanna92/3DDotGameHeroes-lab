@@ -1,5 +1,4 @@
 using Assets.Sources;
-using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -20,42 +19,48 @@ public class GameSystem : MonoBehaviour
     //Rooms
     [SerializeField]
     private GameObject room1_Object;
+
     [SerializeField]
     private GameObject room2_Object;
+
     [SerializeField]
     private GameObject room3_Object;
+
     [SerializeField]
     private GameObject room4_Object;
+
     [SerializeField]
     private GameObject room5_Object;
+
     [SerializeField]
     private GameObject room6_Object;
+
     [SerializeField]
     private GameObject room7_Object;
+
     [SerializeField]
     private GameObject room8_Object;
+
     [SerializeField]
     private GameObject room9_Object;
+
     [SerializeField]
     private GameObject room10_Object;
+
     [SerializeField]
     private GameObject room11_Object;
+
     [SerializeField]
     private GameObject room12_Object;
 
     [SerializeField]
     private GameObject bossRoom_Object;
-    
-
-    private GameObject _currentRoom;
-
 
     [SerializeField]
     private Light _ambientLight;
 
     [SerializeField]
     private GameObject _bat;
-    private GameObject _bat2;
 
     [SerializeField]
     private GameObject _skeleton;
@@ -67,9 +72,6 @@ public class GameSystem : MonoBehaviour
     private GameObject _scorpion;
 
     [SerializeField]
-    private GameObject _boss;
-
-    [SerializeField]
     private Canvas _gameUiCanvas;
 
     [SerializeField]
@@ -77,6 +79,17 @@ public class GameSystem : MonoBehaviour
 
     [SerializeField]
     private GameObject _chest;
+
+    [SerializeField]
+    private GameObject doorObject;
+
+    private GameObject _currentRoom;
+
+    private GameObject _door1;
+    private GameObject _door2;
+    private GameObject _door3;
+    private GameObject _door4;
+    private GameObject _bossDoor;
 
     private Button _startButton;
 
@@ -86,9 +99,8 @@ public class GameSystem : MonoBehaviour
 
     private bool _isGameOver;
 
-    //private bool _hasBoomerang;
+    private bool _hasBoomerang;
 
-    private int _coinCounter;
     private int _keyCounter;
 
     public int PlayerHealth { get; private set; }
@@ -97,7 +109,7 @@ public class GameSystem : MonoBehaviour
 
     public bool GodModeEnabled { get; private set; }
 
-    public IEnumerable<GameObject> Objects { get; set; }
+    private GameObject _cleanRoom1;
 
     // When instantiating it is strictly necessary to save the instance in the private fields
     // if we need to access to any of the object components
@@ -120,15 +132,8 @@ public class GameSystem : MonoBehaviour
         Instantiate(_ambientLight);
         _gameUiCanvas = Instantiate(_gameUiCanvas);
         _menuButton = _gameUiCanvas.GetComponentInChildren<Button>();
-
         _mainMenuCanvas = Instantiate(_mainMenuCanvas);
         _startButton = _mainMenuCanvas.GetComponentInChildren<Button>();
-
-        _player = Instantiate(_player);
-
-        _boss = Instantiate(_boss);
-
-        _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
 
         _currentRoomId = RoomId.Entrance;
 
@@ -140,14 +145,21 @@ public class GameSystem : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        InitRoom();
+        _cleanRoom1 = room1_Object;
+        _player = Instantiate(_player);
+
         _currentRoom = Instantiate(room1_Object);
 
         HasBoomerang = false;
 
-        _coinCounter = 0;
         _keyCounter = 0;
+        _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
 
+        _door1 = Instantiate(doorObject, new Vector3(0.0f, 0.0f, -6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
+        _door2 = Instantiate(doorObject, new Vector3(-16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
+        _door3 = Instantiate(doorObject, new Vector3(16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
+        _door4 = Instantiate(doorObject, new Vector3(24.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f));
+        _bossDoor = Instantiate(doorObject, new Vector3(0.0f, 0.0f, 18.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
     }
 
     // Update is called once per frame
@@ -157,8 +169,30 @@ public class GameSystem : MonoBehaviour
         UpdateCurrentRoomId();
         UpdateDebugKeys();
         UpdateCameraDebugKeys();
+
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
-        
+
+        if (_keyCounter < 4 && Input.GetKeyDown(KeyCode.K))
+        {
+            if (_keyCounter == 0) _door1.gameObject.GetComponent<Animator>().Play("Open");
+            if (_keyCounter == 1) _door2.gameObject.GetComponent<Animator>().Play("Open");
+            if (_keyCounter == 2)
+            {
+                _door3.gameObject.GetComponent<Animator>().Play("Open");
+                _door4.gameObject.GetComponent<Animator>().Play("Open");
+            }
+            if (_keyCounter == 3) _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
+            _keyCounter += 1;
+        }
+        else if (Input.GetKeyDown(KeyCode.K))
+        {
+            _door1.gameObject.GetComponent<Animator>().Play("Open");
+            _door2.gameObject.GetComponent<Animator>().Play("Open");
+            _door3.gameObject.GetComponent<Animator>().Play("Open");
+            _door4.gameObject.GetComponent<Animator>().Play("Open");
+            _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
+        }
+               
         if (!HasBoomerang)
         {
             if (_chest.GetComponent<ActivationController>().isActive())
@@ -169,7 +203,8 @@ public class GameSystem : MonoBehaviour
             }
         }
 
-        if (_isGameOver) {
+        if (_isGameOver)
+        {
             _gameUiCanvas.GetComponent<GameUIController>().ShowGameOver();
             _menuButton.onClick.AddListener(ShowMenu);
         }
@@ -201,14 +236,53 @@ public class GameSystem : MonoBehaviour
     private void StartGame()
     {
         _player.GetComponent<PlayerHealth>().ResetHealth();
+        _player.GetComponent<PlayerController>().ResetPos();
+
+        _hasBoomerang = false;
+
+        _keyCounter = 0;
 
         _currentRoomId = RoomId.Entrance;
+
+        if (_isGameOver)
+        {
+            if (_currentRoomId == RoomId.Entrance)
+            {
+                Destroy(_currentRoom);
+                _currentRoom = Instantiate(_cleanRoom1);
+            }
+                
+            _currentRoomId = RoomId.Entrance;
+
+            UpdateCurrentRoomId();
+
+            _chest.GetComponent<ActivationController>().Activate();
+
+            _door1.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door1.GetComponent<Animator>().Play("Close");
+
+            _door2.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door2.GetComponent<Animator>().Play("Close");
+
+            _door3.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door3.GetComponent<Animator>().Play("Close");
+
+            _door4.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door4.GetComponent<Animator>().Play("Close");
+
+            _bossDoor.GetComponent<DoorController>().gameObject.SetActive(true);
+            _bossDoor.GetComponent<Animator>().Play("Close");
+
+            _gameUiCanvas.GetComponent<GameUIController>().ResetCoins();
+
+            _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
+        }
+
         _isGameOver = false;
+
         // Hides the button
         _startButton.gameObject.SetActive(false);
         _mainMenuCanvas.gameObject.SetActive(false);
-
-        _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
 
         Time.timeScale = 1f;
     }
@@ -228,29 +302,10 @@ public class GameSystem : MonoBehaviour
         // common GUI code goes here
     }
 
-    void InitRoom()
-    {
-        //_bat = Instantiate(_bat);
-
-        //_bat = Instantiate(_bat);
-        //_bat2.transform.position = new Vector3(1.0f, 1.5f, 0f);
-        //_bat.GetComponent<BatController>().ChangePos(new Vector2(0.0f, -20.0f));
-
-        //_skeleton = Instantiate(_skeleton);
-        //_skeleton.GetComponentInChildren<SkeletonDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
-
-        //_slug = Instantiate(_slug);
-        //_slug.GetComponent<SlugDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
-
-        //_scorpion = Instantiate(_scorpion);
-        //_scorpion.GetComponentInChildren<ScorpionHitDamage>().playerHealth = _player.GetComponent<PlayerHealth>();
-    }
-
     private void UpdateCurrentRoomId()
     {
         var pos = _player.GetComponent<PlayerController>().PlayerPos;
         var hasChanged = false;
-        var previousRoom = _currentRoom;
         var roomCenter = _currentRoom.transform.position;
 
         // TODO: make adjustments to rooms boundaries as soon as we have the final Player model,
@@ -260,7 +315,7 @@ public class GameSystem : MonoBehaviour
             case RoomId.Entrance:
                 if (pos.z >= roomCenter.z + 7.0f)
                 {
-                    _currentRoom.GetComponent<Room1>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room2;
                     _currentRoom = room2_Object;
                     _camera.GetComponent<CameraController>().MoveCamera(_currentRoomId);
@@ -270,7 +325,7 @@ public class GameSystem : MonoBehaviour
             case RoomId.Room2:
                 if (pos.z < roomCenter.z - 6.5f)
                 {
-                    _currentRoom.GetComponent<Room2>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room1;
                     _currentRoom = room1_Object;
 
@@ -278,15 +333,15 @@ public class GameSystem : MonoBehaviour
                 }
                 if (pos.x <= roomCenter.x - 8.5f)
                 {
-                    _currentRoom.GetComponent<Room2>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room3;
                     _currentRoom = room3_Object;
 
                     hasChanged = true;
                 }
-                if (pos.z >= -5.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
-                    _currentRoom.GetComponent<Room2>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room6;
                     _currentRoom = room6_Object;
 
@@ -294,17 +349,17 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room3:
-                if (pos.x > -8.0f)
+                if (pos.x > roomCenter.x + 8.5f)
                 {
-                    _currentRoom.GetComponent<Room3>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room2;
                     _currentRoom = room2_Object;
 
                     hasChanged = true;
                 }
-                if (pos.z >= -6.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
-                    _currentRoom.GetComponent<Room3>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room4;
                     _currentRoom = room4_Object;
 
@@ -312,25 +367,25 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room4:
-                if (pos.z < -6.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
-                    _currentRoom.GetComponent<Room4>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room3;
                     _currentRoom = room3_Object;
 
                     hasChanged = true;
                 }
-                if (pos.x <= -24.5f)
+                if (pos.x <= roomCenter.x - 8.5f)
                 {
-                    _currentRoom.GetComponent<Room4>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room5;
                     _currentRoom = room5_Object;
 
                     hasChanged = true;
                 }
-                if (pos.z >= 5.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
-                    _currentRoom.GetComponent<Room4>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room9;
                     _currentRoom = room9_Object;
 
@@ -338,9 +393,9 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room5:
-                if (pos.x > -24.5f)
+                if (pos.x > roomCenter.x + 8.5f)
                 {
-                    _currentRoom.GetComponent<Room5>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room4;
                     _currentRoom = room4_Object;
 
@@ -348,17 +403,17 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room6:
-                if (pos.z < -5.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
-                    _currentRoom.GetComponent<Room6>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room2;
                     _currentRoom = room2_Object;
 
                     hasChanged = true;
                 }
-                if (pos.x >= 8.5f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
-                    _currentRoom.GetComponent<Room6>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room7;
                     _currentRoom = room7_Object;
 
@@ -366,33 +421,33 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room7:
-                if (pos.x < 8.5f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
-                    _currentRoom.GetComponent<Room7>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room6;
                     _currentRoom = room6_Object;
 
                     hasChanged = true;
                 }
-                if (pos.z <= -5.5f)
+                if (pos.z <= roomCenter.z - 6.5f)
                 {
-                    _currentRoom.GetComponent<Room7>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room8;
-                    _currentRoom = room6_Object;
+                    _currentRoom = room8_Object;
 
                     hasChanged = true;
                 }
-                if (pos.x >= 24.0f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
-                    _currentRoom.GetComponent<Room7>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room12;
                     _currentRoom = room12_Object;
 
                     hasChanged = true;
                 }
-                if (pos.z >= 5.5f)
+                if (pos.z >= roomCenter.z + 6.5f)
                 {
-                    _currentRoom.GetComponent<Room7>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room11;
                     _currentRoom = room11_Object;
 
@@ -400,9 +455,9 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room8:
-                if (pos.z > -5.5f)
+                if (pos.z > roomCenter.z + 6.5f)
                 {
-                    _currentRoom.GetComponent<Room8>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room7;
                     _currentRoom = room7_Object;
 
@@ -410,17 +465,17 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room9:
-                if (pos.z < 5.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
-                    _currentRoom.GetComponent<Room9>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room4;
                     _currentRoom = room4_Object;
 
                     hasChanged = true;
                 }
-                if (pos.x >= -8.0f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
-                    _currentRoom.GetComponent<Room9>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room10;
                     _currentRoom = room10_Object;
 
@@ -428,43 +483,45 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room10:
-                if (pos.x < -8.0f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
-                    _currentRoom.GetComponent<Room10>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room9;
                     _currentRoom = room9_Object;
 
                     hasChanged = true;
                 }
-                if (pos.x >= 8.5f)
+                if (pos.x >= roomCenter.x + 8.5f)
                 {
-                    _currentRoom.GetComponent<Room10>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room11;
                     _currentRoom = room11_Object;
 
                     hasChanged = true;
                 }
-                if (pos.z >= 17.5f)
+                if (pos.z >= roomCenter.z + 7f)
                 {
-                    _currentRoom.GetComponent<Room10>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.BossRoom;
                     _currentRoom = bossRoom_Object;
+                    _bossDoor.GetComponent<DoorController>().gameObject.SetActive(true);
+                    _bossDoor.GetComponent<Animator>().Play("Close");
 
                     hasChanged = true;
                 }
                 break;
             case RoomId.Room11:
-                if (pos.x < 8.5f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
-                    _currentRoom.GetComponent<Room11>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room10;
                     _currentRoom = room10_Object;
 
                     hasChanged = true;
                 }
-                if (pos.z < 5.5f)
+                if (pos.z < roomCenter.z - 6.5f)
                 {
-                    _currentRoom.GetComponent<Room11>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room7;
                     _currentRoom = room7_Object;
 
@@ -472,9 +529,9 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room12:
-                if (pos.x < 24.0f)
+                if (pos.x < roomCenter.x - 8.5f)
                 {
-                    _currentRoom.GetComponent<Room12>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room7;
                     _currentRoom = room7_Object;
 
@@ -482,21 +539,26 @@ public class GameSystem : MonoBehaviour
                 }
                 break;
             case RoomId.Room13:
-                if (pos.z < 17.5f)
+                if (pos.z < roomCenter.z - 9.5f)
                 {
-                    _currentRoom.GetComponent<BossRoom>().DestroyRoom();
+                    Destroy(_currentRoom);
                     _currentRoomId = RoomId.Room10;
                     _currentRoom = room10_Object;
 
                     hasChanged = true;
                 }
                 break;
+            default:
+                Destroy(_currentRoom);
+                _currentRoomId = RoomId.Room1;
+                _currentRoom = room1_Object;
+                hasChanged = true;
+                break;
         }
 
         if (hasChanged)
         {
 
-            Destroy(previousRoom);
             _currentRoom = Instantiate(_currentRoom);
 
             _camera.GetComponent<CameraController>().MoveCamera(_currentRoomId);

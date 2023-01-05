@@ -26,13 +26,11 @@ public class Room3 : MonoBehaviour
         _slug4 = Instantiate(slugObject, new Vector3(roomCenter.x + 6.0f, 0f, roomCenter.z - 4.0f), Quaternion.identity);
     }
 
-    public void DestroyRoom()
+    public void OnDestroy()
     {
         Destroy(_slug1);
         Destroy(_slug2);
         Destroy(_slug3);
         Destroy(_slug4);
-
-        Destroy(gameObject);
     }
 }

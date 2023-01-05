@@ -46,3 +46,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movableBlockObject: {fileID: 830743677315815996, guid: 7b93ce8ed4acec5499d3596624a7d2d9, type: 3}
   skeletonObject: {fileID: 1186193903104432053, guid: 5619634a0fcbbad4f9d9332f1ddc709b, type: 3}
+  slugObject: {fileID: 1848520958646020973, guid: a5b6f7f1e18693d43b280d13152741fe, type: 3}

@@ -9,6 +9,9 @@ TagManager:
   - Start
   - Sword
   - Enemy
+  - Keys
+  - Coins
+  - Destroyable
   - BossBody
   - BossHead
   layers:

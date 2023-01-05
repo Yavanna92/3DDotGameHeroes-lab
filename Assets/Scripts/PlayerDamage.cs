@@ -25,5 +25,9 @@ public class PlayerDamage : MonoBehaviour
 
             _bossHealth.TakeDamage();
         }
+        if (collision.gameObject.CompareTag("Activation"))
+        {
+            collision.gameObject.GetComponent<ActivationController>().Activate();
+        }
     }
 }

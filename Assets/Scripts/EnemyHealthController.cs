@@ -13,4 +13,10 @@ public class EnemyHealthController : MonoBehaviour
         if (health <= 0)
             Destroy(gameObject);
     }
+
+    public void Kill()
+    {
+        Destroy(gameObject);
+    }
+
 }

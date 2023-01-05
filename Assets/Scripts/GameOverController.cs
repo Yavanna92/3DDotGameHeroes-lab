@@ -27,4 +27,5 @@ public class GameOverController : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
 }

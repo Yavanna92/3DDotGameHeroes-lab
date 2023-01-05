@@ -18,12 +18,11 @@ public class BatController : MonoBehaviour
     [SerializeField]
     private GameObject _batNavMesh;
 
-    public Vector2 InitialPos { get; set; }
 
     private void Awake()
     {
         // init AI -> instantiate NavMesh
-        _batNavMesh = Instantiate(_batNavMesh);
+        _batNavMesh = Instantiate(_batNavMesh, new Vector3(gameObject.transform.position.x, 0.05f, gameObject.transform.position.z), gameObject.transform.rotation);
     }
 
     // Start is called before the first frame update
@@ -38,7 +37,8 @@ public class BatController : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
 
         // place enemy
-        _rb.position = new Vector3(0.0f, 1.5f, -21.0f);
+        _rb.position = new Vector3(_rb.position.x, 1.5f, _rb.position.z);
+        //_batNavMesh.GetComponent<Transform>().position = new Vector3(_rb.position.x, 0.07f, _rb.position.z);
     }
 
     // Update is called once per frame
@@ -82,6 +82,14 @@ public class BatController : MonoBehaviour
     {
         Destroy(_batNavMesh);
     }
+
+    public void ChangePos(Vector2 newPos)
+    {
+        var navMeshPos = _batNavMesh.GetComponent<Transform>().position;
+        //_batNavMesh.GetComponent<Transform>().position = new Vector3( newPos.x, navMeshPos.y, newPos.y);
+        _batNavMesh.GetComponent<BatNavMeshController>().PlaceBat(new Vector3(newPos.x, navMeshPos.y, newPos.y));
+    }
+
 
     // TODO: Make sure it is not necessary to adjust the time in which bat stays at the minimum height
     // to be able to attack it

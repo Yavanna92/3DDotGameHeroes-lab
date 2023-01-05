@@ -242,6 +242,8 @@ MonoBehaviour:
   _scorpion: {fileID: 1174112396010439335, guid: 9e210e976dc87b344831f8889e6354b9, type: 3}
   _gameUiCanvas: {fileID: 1022520543252489386, guid: a1e7979126f494d4ea8183b3c2b39a51, type: 3}
   _mainMenuCanvas: {fileID: 1966592484583350306, guid: 3d900fd36360ab74192647f6a9976982, type: 3}
+  _instructionsCanvas: {fileID: 8050559469555921043, guid: 1e95e9b2d215a3045ae6337122f7ea85, type: 3}
+  _creditsCanvas: {fileID: 5136067327007189765, guid: d3f1206ec7005814a9cb8a4469b3c376, type: 3}
   _chest: {fileID: 5516658697258037908, guid: f06c1d1064b2d7646b0f7f00b37375b7, type: 3}
   doorObject: {fileID: 1481209722691026344, guid: 3970cc96715fd4044b9942969c027292, type: 3}
 --- !u!4 &1390513059

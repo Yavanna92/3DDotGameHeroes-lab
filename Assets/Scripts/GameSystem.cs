@@ -22,42 +22,48 @@ public class GameSystem : MonoBehaviour
     //Rooms
     [SerializeField]
     private GameObject room1_Object;
+
     [SerializeField]
     private GameObject room2_Object;
+
     [SerializeField]
     private GameObject room3_Object;
+
     [SerializeField]
     private GameObject room4_Object;
+
     [SerializeField]
     private GameObject room5_Object;
+
     [SerializeField]
     private GameObject room6_Object;
+
     [SerializeField]
     private GameObject room7_Object;
+
     [SerializeField]
     private GameObject room8_Object;
+
     [SerializeField]
     private GameObject room9_Object;
+
     [SerializeField]
     private GameObject room10_Object;
+
     [SerializeField]
     private GameObject room11_Object;
+
     [SerializeField]
     private GameObject room12_Object;
 
     [SerializeField]
     private GameObject bossRoom_Object;
-    
-
-    private GameObject _currentRoom;
-
 
     [SerializeField]
     private Light _ambientLight;
 
     [SerializeField]
     private GameObject _bat;
-    private GameObject _bat2;
 
     [SerializeField]
     private GameObject _skeleton;
@@ -80,6 +86,8 @@ public class GameSystem : MonoBehaviour
     [SerializeField]
     private GameObject doorObject;
 
+    private GameObject _currentRoom;
+
     private GameObject _door1;
     private GameObject _door2;
     private GameObject _door3;
@@ -101,10 +109,9 @@ public class GameSystem : MonoBehaviour
 
     private bool _hasBoomerang;
 
-    private bool _initialized;
-
-    private int _coinCounter;
     private int _keyCounter;
+
+    private GameObject _cleanRoom1;
 
     // When instantiating it is strictly necessary to save the instance in the private fields
     // if we need to access to any of the object components
@@ -127,7 +134,6 @@ public class GameSystem : MonoBehaviour
         Instantiate(_ambientLight);
         _gameUiCanvas = Instantiate(_gameUiCanvas);
         _menuButton = _gameUiCanvas.GetComponentInChildren<Button>();
-
         _mainMenuCanvas = Instantiate(_mainMenuCanvas);
         _startButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[0];
         _instructionsButton = _mainMenuCanvas.GetComponentsInChildren<GameObject>()[0].GetComponentsInChildren<Button>()[1];
@@ -136,24 +142,31 @@ public class GameSystem : MonoBehaviour
         _creditsButton = _credMenuButton.GetComponentsInChildren<GameObject>()[2].GetComponentInChildren<Button>();
 
         _currentRoomId = RoomId.Entrance;
-
-
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        StartGame();
+        _cleanRoom1 = room1_Object;
+        _player = Instantiate(_player);
+
+        _currentRoom = Instantiate(room1_Object);
+
+        _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
+
+        _door1 = Instantiate(doorObject, new Vector3(0.0f, 0.0f, -6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
+        _door2 = Instantiate(doorObject, new Vector3(-16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
+        _door3 = Instantiate(doorObject, new Vector3(16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
+        _door4 = Instantiate(doorObject, new Vector3(24.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f));
+        _bossDoor = Instantiate(doorObject, new Vector3(0.0f, 0.0f, 18.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale != 1f)
-        {
-            UpdateCurrentRoomId();
-            UpdateCameraDebugKeys();
-            _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
+        UpdateCurrentRoomId();
+        UpdateCameraDebugKeys();
+        _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
 
             if (_keyCounter < 4 && Input.GetKeyDown(KeyCode.K))
             {
@@ -176,24 +189,23 @@ public class GameSystem : MonoBehaviour
                 _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
             }
 
-            if (!_hasBoomerang)
+        if (!_hasBoomerang)
+        {
+            if (_chest.GetComponent<ActivationController>().isActive())
             {
-                if (_chest.GetComponent<ActivationController>().isActive())
-                {
-                    _player.GetComponent<PlayerController>()._hasBoomerang = true;
-                    _gameUiCanvas.GetComponent<GameUIController>().ActivateBoomerang();
-                    _hasBoomerang = true;
-                }
+                _player.GetComponent<PlayerController>()._hasBoomerang = true;
+                _gameUiCanvas.GetComponent<GameUIController>().ActivateBoomerang();
+                _hasBoomerang = true;
             }
-
-            if (_isGameOver)
-            {
-                _gameUiCanvas.GetComponent<GameUIController>().ShowGameOver();
-                _menuButton.onClick.AddListener(ShowMenu);
-            }
-            else
-                _isGameOver = _player.GetComponent<PlayerHealth>().Health == 0 && !_isGameOver;
         }
+
+        if (_isGameOver)
+        {
+            _gameUiCanvas.GetComponent<GameUIController>().ShowGameOver();
+            _menuButton.onClick.AddListener(ShowMenu);
+        }
+        else
+            _isGameOver = _player.GetComponent<PlayerHealth>().Health == 0 && !_isGameOver;
     }
 
     private void OnEnable()
@@ -248,68 +260,52 @@ public class GameSystem : MonoBehaviour
 
     private void StartGame()
     {
-        if (_isGameOver || _initialized)
+        if (_isGameOver)
         {
-            GameObject oldObject = _player;
-            _player = Instantiate(_player);
-            Destroy(oldObject);
+            if (_currentRoomId == RoomId.Entrance)
+            {
+                Destroy(_currentRoom);
+                _currentRoom = Instantiate(_cleanRoom1);
+            }
+                
+            _currentRoomId = RoomId.Entrance;
+
+            UpdateCurrentRoomId();
+
+            _chest.GetComponent<ActivationController>().Activate();
 
 
-            oldObject = _currentRoom; 
-            Destroy(_currentRoom);
-            _currentRoom = Instantiate(_currentRoom);
-            Destroy(oldObject);
-            oldObject = _chest;
-            _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
-            Destroy(oldObject);
+            _door1.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door1.GetComponent<Animator>().Play("Close");
 
-            oldObject = _door1;
-            _door1 = Instantiate(doorObject, new Vector3(0.0f, 0.0f, -6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-            Destroy(oldObject);
-            oldObject = _door2;
-            _door2 = Instantiate(doorObject, new Vector3(-16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-            Destroy(oldObject);
-            oldObject = _door3;
-            _door3 = Instantiate(doorObject, new Vector3(16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-            Destroy(oldObject);
-            oldObject = _door4;
-            _door4 = Instantiate(doorObject, new Vector3(24.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f));
-            Destroy(oldObject);
-            oldObject = _bossDoor;
-            _bossDoor = Instantiate(doorObject, new Vector3(0.0f, 0.0f, 18.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-            Destroy(oldObject);
+            _door2.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door2.GetComponent<Animator>().Play("Close");
 
-            // Hides the button
-            _startButton.gameObject.SetActive(false);
-            _mainMenuCanvas.gameObject.SetActive(false);
+            _door3.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door3.GetComponent<Animator>().Play("Close");
+
+            _door4.GetComponent<DoorController>().gameObject.SetActive(true);
+            _door4.GetComponent<Animator>().Play("Close");
+
+            _bossDoor.GetComponent<DoorController>().gameObject.SetActive(true);
+            _bossDoor.GetComponent<Animator>().Play("Close");
 
             _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
-
         }
-        else
-        {
-            _player = Instantiate(_player);
-            _currentRoom = Instantiate(room1_Object);
 
-            _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
-
-            _door1 = Instantiate(doorObject, new Vector3(0.0f, 0.0f, -6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-            _door2 = Instantiate(doorObject, new Vector3(-16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-            _door3 = Instantiate(doorObject, new Vector3(16.0f, 0.0f, 6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-            _door4 = Instantiate(doorObject, new Vector3(24.0f, 0.0f, 0.0f), Quaternion.Euler(0.0f, 0.0f, 0.0f));
-            _bossDoor = Instantiate(doorObject, new Vector3(0.0f, 0.0f, 18.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
-
-        }
         _player.GetComponent<PlayerHealth>().ResetHealth();
+        _player.GetComponent<PlayerController>().ResetPos();
 
         _hasBoomerang = false;
 
-        _coinCounter = 0;
         _keyCounter = 0;
 
         _currentRoomId = RoomId.Entrance;
         _isGameOver = false;
-        _initialized = true;
+
+        // Hides the button
+        _startButton.gameObject.SetActive(false);
+        _mainMenuCanvas.gameObject.SetActive(false);
 
         Time.timeScale = 1f;
     }
@@ -325,7 +321,6 @@ public class GameSystem : MonoBehaviour
     {
         var pos = _player.GetComponent<PlayerController>().PlayerPos;
         var hasChanged = false;
-        //var previousRoom = _currentRoom;
         var roomCenter = _currentRoom.transform.position;
 
         // TODO: make adjustments to rooms boundaries as soon as we have the final Player model,

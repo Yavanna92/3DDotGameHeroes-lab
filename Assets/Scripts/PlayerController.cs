@@ -25,15 +25,16 @@ public class PlayerController : MonoBehaviour
 
     public bool _hasBoomerang;
 
-
+    private void Awake()
+    {
+        _sword = GameObject.FindGameObjectWithTag("Sword");
+    }
     // Start is called before the first frame update
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
         PlayerPos = _rb.position;
         _anim = GetComponent<Animator>();
-
-        _sword = GameObject.FindGameObjectWithTag("Sword");
 
         _sword.SetActive(false);
 
@@ -82,9 +83,16 @@ public class PlayerController : MonoBehaviour
         PlayerPos = _rb.position;
     }
 
+    public void ResetPos()
+    {
+        _anim.gameObject.SetActive(false);
+        gameObject.transform.position = new Vector3(0f, 0f, -27f);
+        gameObject.transform.rotation = Quaternion.identity;
+        _anim.gameObject.SetActive(true);
+    }
+
     private void OnDestroy()
     {
         Destroy(_sword);
     }
-
 }

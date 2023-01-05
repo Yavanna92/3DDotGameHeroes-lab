@@ -12,6 +12,8 @@ TagManager:
   - Keys
   - Coins
   - Destroyable
+  - BossBody
+  - BossHead
   layers:
   - Default
   - TransparentFX

@@ -6,6 +6,8 @@ public class PlayerDamage : MonoBehaviour
 {
     public EnemyHealthController health;
 
+    private BossHealth _bossHealth;
+
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -14,6 +16,14 @@ public class PlayerDamage : MonoBehaviour
 
             if (health != null)
                 health.RemoveHealth();
+        }
+
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            if (_bossHealth == null)
+                _bossHealth = collision.gameObject.GetComponentInParent<BossHealth>();
+
+            _bossHealth.TakeDamage();
         }
         if (collision.gameObject.CompareTag("Activation"))
         {

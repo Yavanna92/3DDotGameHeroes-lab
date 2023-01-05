@@ -23,6 +23,8 @@ public class Room5 : MonoBehaviour
     private GameObject _scorpion1;
     private GameObject _scorpion2;
 
+    private GameObject _bat1;
+
     private GameObject _skeleton1;
 
     private GameObject _puzzleBlock1;
@@ -34,7 +36,7 @@ public class Room5 : MonoBehaviour
     private GameObject _puzzleBlock7;
     private GameObject _puzzleBlock8;
 
-    //private GameObject _bat1;
+
 
     private Vector3 roomCenter;
 
@@ -47,8 +49,7 @@ public class Room5 : MonoBehaviour
         _scorpion1 = Instantiate(scorpionObject, new Vector3(roomCenter.x - 5.0f, 0.0f, roomCenter.z + 3.0f), Quaternion.identity);
         _scorpion2 = Instantiate(scorpionObject, new Vector3(roomCenter.x - 5.0f, 0.0f, roomCenter.z - 3.0f), Quaternion.identity);
         _skeleton1 = Instantiate(skeletonObject, new Vector3(roomCenter.x + 0.0f, 0.0f, roomCenter.z - 3.0f), Quaternion.identity);
-        //_bat1 = Instantiate(batObject);
-        //_bat1.GetComponent<BatController>().ChangePos(new Vector2(32.0f, roomCenter.z + 0.0f));
+        _bat1 = Instantiate(batObject, new Vector3(32.0f, 1.5f, roomCenter.z + 0.0f), Quaternion.identity);
 
         _puzzleBlock1 = Instantiate(destroyableBlockObject);
         _puzzleBlock1.GetComponent<DestroyableBlockController>().SetPosition(new Vector3(roomCenter.x + 2.5f, 0.0f, roomCenter.z - 1.5f));
@@ -69,18 +70,12 @@ public class Room5 : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void DestroyRoom()
     {
         Destroy(_scorpion1);
         Destroy(_scorpion2);
         Destroy(_skeleton1);
-        //Destroy(_bat1);
+        Destroy(_bat1);
         Destroy(_puzzleBlock1);
         Destroy(_puzzleBlock2);
         Destroy(_puzzleBlock3);

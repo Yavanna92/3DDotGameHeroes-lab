@@ -18,24 +18,12 @@ public class Room3 : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         roomCenter = gameObject.GetComponent<Transform>().position;
 
-        _slug1 = Instantiate(slugObject);
-        _slug1.GetComponent<SlugController>().ChangePos(new Vector2(roomCenter.x - 6.0f, roomCenter.z + 4.0f));
-        _slug2 = Instantiate(slugObject);
-        _slug2.GetComponent<SlugController>().ChangePos(new Vector2(roomCenter.x - 6.0f, roomCenter.z - 4.0f));
-        _slug3 = Instantiate(slugObject);
-        _slug3.GetComponent<SlugController>().ChangePos(new Vector2(roomCenter.x + 6.0f, roomCenter.z + 4.0f));
-        _slug4 = Instantiate(slugObject);
-        _slug4.GetComponent<SlugController>().ChangePos(new Vector2(roomCenter.x + 6.0f, roomCenter.z - 4.0f));
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        _slug1 = Instantiate(slugObject, new Vector3(roomCenter.x - 6.0f, 0f, roomCenter.z + 4.0f), Quaternion.identity);
+        _slug2 = Instantiate(slugObject, new Vector3(roomCenter.x - 6.0f, 0f, roomCenter.z - 4.0f), Quaternion.identity);
+        _slug3 = Instantiate(slugObject, new Vector3(roomCenter.x + 6.0f, 0f, roomCenter.z + 4.0f), Quaternion.identity);
+        _slug4 = Instantiate(slugObject, new Vector3(roomCenter.x + 6.0f, 0f, roomCenter.z - 4.0f), Quaternion.identity);
     }
 
     public void DestroyRoom()

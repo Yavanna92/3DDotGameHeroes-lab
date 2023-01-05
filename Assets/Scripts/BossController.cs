@@ -1,9 +1,10 @@
+using System.Collections;
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
-using System;
-using Assets.Sources;
 using UnityEngine.AI;
 
-public class BatNavMeshController : MonoBehaviour
+public class BossController : MonoBehaviour
 {
     #region Fields
 
@@ -42,19 +43,56 @@ public class BatNavMeshController : MonoBehaviour
     [SerializeField]
     private bool _playerInAttackRange;
 
+    [SerializeField]
+    private Transform _bulletSpawnPoint;
+
+    [SerializeField]
+    private GameObject _bulletPrefab;
+
+    [SerializeField]
+    private float _bulletSpeed;
+
+    [SerializeField]
+    private float _cooldown;
+
+    private Rigidbody _bulletRb;
+
     private Transform _playerTransform;
+
+    private float _timer;
 
     #endregion
 
     private void Awake()
-    { 
+    {
         _agent = GetComponent<NavMeshAgent>();
         _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        _bulletPrefab = Instantiate(_bulletPrefab);
     }
 
+    private void Start()
+    {
+        _timer = 0.0f;
+        _bulletRb = _bulletPrefab.GetComponent<Rigidbody>();
+    }
     // Update is called once per frame
     private void Update()
     {
+        // boss always looks at player
+        transform.LookAt(_playerTransform);
+
+        _timer += Time.fixedDeltaTime;
+
+        if (_timer >= _cooldown * Time.fixedDeltaTime)
+        {
+            _bulletPrefab.GetComponent<FireShot>().Shoot();
+            _bulletRb.MovePosition(_bulletSpawnPoint.position);
+            _bulletRb.MoveRotation(_bulletSpawnPoint.rotation);
+            _bulletRb.velocity = _bulletSpawnPoint.forward * _bulletSpeed;
+
+            _timer = 0.0f;
+        }
+
         //Check for sight and attack range
         _playerInSightRange = Physics.CheckSphere(transform.position, _sightRange, _playerMask);
         _playerInAttackRange = Physics.CheckSphere(transform.position, _attackRange, _playerMask);
@@ -80,8 +118,8 @@ public class BatNavMeshController : MonoBehaviour
 
     private void SearchWalkPoint()
     {
-        float randX = UnityEngine.Random.Range(-_walkPointRange, _walkPointRange);
-        float randZ = UnityEngine.Random.Range(-_walkPointRange, _walkPointRange);
+        float randX = Random.Range(-_walkPointRange, _walkPointRange);
+        float randZ = Random.Range(-_walkPointRange, _walkPointRange);
 
         _walkPoint = new Vector3(transform.position.x + randX, transform.position.y, transform.position.z + randZ);
 
@@ -96,12 +134,4 @@ public class BatNavMeshController : MonoBehaviour
         if (_playerInAttackRange)
             transform.LookAt(_playerTransform);
     }
-
-    public void PlaceBat(Vector3 pos)
-    {
-        gameObject.GetComponent<NavMeshAgent>().updatePosition = false;
-        gameObject.GetComponent<NavMeshAgent>().nextPosition = pos;
-        gameObject.GetComponent<NavMeshAgent>().updatePosition = true;
-    }
-
 }

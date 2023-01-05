@@ -66,6 +66,9 @@ public class GameSystem : MonoBehaviour
     private GameObject _scorpion;
 
     [SerializeField]
+    private GameObject _boss;
+
+    [SerializeField]
     private Canvas _gameUiCanvas;
 
     [SerializeField]
@@ -113,6 +116,8 @@ public class GameSystem : MonoBehaviour
         _startButton = _mainMenuCanvas.GetComponentInChildren<Button>();
 
         _player = Instantiate(_player);
+
+        _boss = Instantiate(_boss);
 
         _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
 

@@ -143,13 +143,16 @@ public class GameSystem : MonoBehaviour
             UpdateCameraDebugKeys();
             _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
 
-            if (_keyCounter < 5 && Input.GetKeyDown(KeyCode.K))
+            if (_keyCounter < 4 && Input.GetKeyDown(KeyCode.K))
             {
                 if (_keyCounter == 0) _door1.gameObject.GetComponent<Animator>().Play("Open");
                 if (_keyCounter == 1) _door2.gameObject.GetComponent<Animator>().Play("Open");
-                if (_keyCounter == 2) _door3.gameObject.GetComponent<Animator>().Play("Open");
-                if (_keyCounter == 3) _door4.gameObject.GetComponent<Animator>().Play("Open");
-                if (_keyCounter == 4) _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
+                if (_keyCounter == 2)
+                {
+                    _door3.gameObject.GetComponent<Animator>().Play("Open");
+                    _door4.gameObject.GetComponent<Animator>().Play("Open");
+                }
+                if (_keyCounter == 3) _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
                 _keyCounter += 1;
             }
             else if (Input.GetKeyDown(KeyCode.K))

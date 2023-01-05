@@ -9,6 +9,8 @@ TagManager:
   - Start
   - Sword
   - Enemy
+  - BossBody
+  - BossHead
   layers:
   - Default
   - TransparentFX

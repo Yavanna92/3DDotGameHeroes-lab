@@ -35,13 +35,11 @@ public class Room11 : MonoBehaviour
     {
 
     }
-    public void DestroyRoom()
+    public void OnDestroy()
     {
         Destroy(_slug1);
         Destroy(_slug2);
         Destroy(_skeleton1);
         Destroy(_skeleton2);
-
-        Destroy(gameObject);
     }
 }

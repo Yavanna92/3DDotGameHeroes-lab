@@ -41,13 +41,11 @@ public class Room1 : MonoBehaviour
         
     }
 
-    public void DestroyRoom()
+    public void OnDestroy()
     {
         Destroy(_bat1);
         Destroy(_bat2);
         Destroy(_PuzzleWall1);
         Destroy(_PuzzleWall2);
-
-        Destroy(gameObject);
     }
 }

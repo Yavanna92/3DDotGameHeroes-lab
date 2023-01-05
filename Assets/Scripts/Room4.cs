@@ -22,11 +22,9 @@ public class Room4 : MonoBehaviour
         _scorpion2 = Instantiate(scorpionObject, new Vector3(roomCenter.x + 6.0f, 0.0f, roomCenter.z + 0.0f), Quaternion.identity);
     }
 
-    public void DestroyRoom()
+    public void OnDestroy()
     {
         Destroy(_scorpion1);
         Destroy(_scorpion2);
-
-        Destroy(gameObject);
     }
 }

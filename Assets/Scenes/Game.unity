@@ -240,10 +240,10 @@ MonoBehaviour:
   _skeleton: {fileID: 1186193903104432053, guid: 5619634a0fcbbad4f9d9332f1ddc709b, type: 3}
   _slug: {fileID: 1848520958646020973, guid: a5b6f7f1e18693d43b280d13152741fe, type: 3}
   _scorpion: {fileID: 1174112396010439335, guid: 9e210e976dc87b344831f8889e6354b9, type: 3}
-  _boss: {fileID: 5841357442012664560, guid: b37e8874084b9694994bc2c266e38bde, type: 3}
   _gameUiCanvas: {fileID: 1022520543252489386, guid: a1e7979126f494d4ea8183b3c2b39a51, type: 3}
   _mainMenuCanvas: {fileID: 1966592484583350306, guid: 3d900fd36360ab74192647f6a9976982, type: 3}
   _chest: {fileID: 5516658697258037908, guid: f06c1d1064b2d7646b0f7f00b37375b7, type: 3}
+  doorObject: {fileID: 1481209722691026344, guid: 3970cc96715fd4044b9942969c027292, type: 3}
 --- !u!4 &1390513059
 Transform:
   m_ObjectHideFlags: 0

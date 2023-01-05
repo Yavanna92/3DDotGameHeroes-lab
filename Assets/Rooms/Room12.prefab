@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 13
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7723893103800350223
 MonoBehaviour:
@@ -45,3 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slugObject: {fileID: 1848520958646020973, guid: a5b6f7f1e18693d43b280d13152741fe, type: 3}
+  batObject: {fileID: 3973940500463333691, guid: 0857cdf61fd7f4149a66c8cb133a160f, type: 3}

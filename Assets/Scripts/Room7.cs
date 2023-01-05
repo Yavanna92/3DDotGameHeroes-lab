@@ -15,8 +15,8 @@ public class Room7 : MonoBehaviour
     {
         
     }
-    public void DestroyRoom()
+    public void OnDestroy()
     {
-        Destroy(gameObject);
+
     }
 }

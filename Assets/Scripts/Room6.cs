@@ -44,14 +44,12 @@ public class Room6 : MonoBehaviour
         
     }
 
-    public void DestroyRoom()
+    public void OnDestroy()
     {
         Destroy(_PuzzleWall1);
         Destroy(_PuzzleWall2);
         Destroy(_skeleton1);
         Destroy(_skeleton2);
         Destroy(_slug1);
-
-        Destroy(gameObject);
     }
 }

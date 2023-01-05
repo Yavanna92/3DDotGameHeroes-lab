@@ -49,7 +49,7 @@ public class Room5 : MonoBehaviour
         _scorpion1 = Instantiate(scorpionObject, new Vector3(roomCenter.x - 5.0f, 0.0f, roomCenter.z + 3.0f), Quaternion.identity);
         _scorpion2 = Instantiate(scorpionObject, new Vector3(roomCenter.x - 5.0f, 0.0f, roomCenter.z - 3.0f), Quaternion.identity);
         _skeleton1 = Instantiate(skeletonObject, new Vector3(roomCenter.x + 0.0f, 0.0f, roomCenter.z - 3.0f), Quaternion.identity);
-        _bat1 = Instantiate(batObject, new Vector3(32.0f, 1.5f, roomCenter.z + 0.0f), Quaternion.identity);
+        _bat1 = Instantiate(batObject, new Vector3(roomCenter.x + 6.0f, 1.5f, roomCenter.z + 3.0f), Quaternion.identity);
 
         _puzzleBlock1 = Instantiate(destroyableBlockObject);
         _puzzleBlock1.GetComponent<DestroyableBlockController>().SetPosition(new Vector3(roomCenter.x + 2.5f, 0.0f, roomCenter.z - 1.5f));
@@ -70,7 +70,7 @@ public class Room5 : MonoBehaviour
 
     }
 
-    public void DestroyRoom()
+    public void OnDestroy()
     {
         Destroy(_scorpion1);
         Destroy(_scorpion2);
@@ -84,7 +84,5 @@ public class Room5 : MonoBehaviour
         Destroy(_puzzleBlock6);
         Destroy(_puzzleBlock7);
         Destroy(_puzzleBlock8);
-
-        Destroy(gameObject);
     }
 }

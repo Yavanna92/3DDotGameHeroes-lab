@@ -26,12 +26,10 @@ public class Room2 : MonoBehaviour
         _skeleton2 = Instantiate(skeletonObject, new Vector3(roomCenter.x + 6.0f, 0f, roomCenter.z + 0.0f), Quaternion.identity);
     }
 
-    public void DestroyRoom()
+    public void OnDestroy()
     {
         Destroy(_skeleton1);
         Destroy(_skeleton2);
-
-        Destroy(gameObject);
     }
 
 }

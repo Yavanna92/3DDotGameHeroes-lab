@@ -81,4 +81,10 @@ public class PlayerController : MonoBehaviour
         _rb.velocity = dir * _speed * Time.fixedDeltaTime;
         PlayerPos = _rb.position;
     }
+
+    private void OnDestroy()
+    {
+        Destroy(_sword);
+    }
+
 }

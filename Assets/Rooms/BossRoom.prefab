@@ -30,7 +30,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 14
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6157926807747655524
 MonoBehaviour:
@@ -44,3 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e6788bba4113bf49b35bcede440326a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _boss: {fileID: 5841357442012664560, guid: b37e8874084b9694994bc2c266e38bde, type: 3}

@@ -118,7 +118,7 @@ public class GameSystem : MonoBehaviour
 
     private bool _gameOverScreenActive;
 
-    private int _keyCounter;
+    private KeyCounter _keyCounter;
 
     private GameObject _cleanRoom1;
 
@@ -148,6 +148,7 @@ public class GameSystem : MonoBehaviour
         _creditsCanvas = Instantiate(_creditsCanvas);
         _instructionsCanvas.gameObject.SetActive(false);
         _creditsCanvas.gameObject.SetActive(false);
+        _keyCounter = _gameUiCanvas.gameObject.GetComponentInChildren<KeyCounter>();
 
         var buttonList = _mainMenuCanvas.gameObject.GetComponentsInChildren<Button>().AsEnumerable();
         _startButton = buttonList.FirstOrDefault(item => item.CompareTag("Start"));
@@ -184,17 +185,17 @@ public class GameSystem : MonoBehaviour
         UpdateCameraDebugKeys();
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
 
-            if (_keyCounter < 4 && Input.GetKeyDown(KeyCode.K))
+            if (_keyCounter.Keys < 4 && Input.GetKeyDown(KeyCode.K))
             {
-                if (_keyCounter == 0) _door1.gameObject.GetComponent<Animator>().Play("Open");
-                if (_keyCounter == 1) _door2.gameObject.GetComponent<Animator>().Play("Open");
-                if (_keyCounter == 2)
+                if (_keyCounter.Keys == 0) _door1.gameObject.GetComponent<Animator>().Play("Open");
+                if (_keyCounter.Keys == 1) _door2.gameObject.GetComponent<Animator>().Play("Open");
+                if (_keyCounter.Keys == 2)
                 {
                     _door3.gameObject.GetComponent<Animator>().Play("Open");
                     _door4.gameObject.GetComponent<Animator>().Play("Open");
                 }
-                if (_keyCounter == 3) _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
-                _keyCounter += 1;
+                if (_keyCounter.Keys == 3) _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
+                _keyCounter.AddKey();
             }
             else if (Input.GetKeyDown(KeyCode.B))
             {
@@ -316,7 +317,7 @@ public class GameSystem : MonoBehaviour
 
         _hasBoomerang = false;
 
-        _keyCounter = 0;
+        _keyCounter.ResetKey();
 
         _currentRoomId = RoomId.Entrance;
         _isGameOver = false;

@@ -6,7 +6,7 @@ using UnityEngine;
 public class KeyCounter : MonoBehaviour
 {
 
-    public int Keys { get; private set; }
+    public int Keys { get; set; }
     private TextMeshProUGUI _kc;
 
     // Start is called before the first frame update

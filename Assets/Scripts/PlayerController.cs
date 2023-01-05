@@ -14,10 +14,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private Rigidbody _rb;
 
-    public Vector3 PlayerPos { get; private set; }
+    [SerializeField]
+    private float _boomerangSpeed;
+
+    [SerializeField]
+    private Transform _boomerangSpawnPoint;
 
     [SerializeField]
     private Animator _anim;
+
+    private Rigidbody _boomerangRb;
+
+    public Vector3 PlayerPos { get; private set; }
 
     private GameObject _sword;
 
@@ -34,13 +42,7 @@ public class PlayerController : MonoBehaviour
     {
         _sword = GameObject.FindGameObjectWithTag("Sword");
     }
-    [SerializeField]
-    private float _boomerangSpeed;
 
-    [SerializeField]
-    private Transform _boomerangSpawnPoint;
-
-    private Rigidbody _boomerangRb;
 
     // Start is called before the first frame update
     void Start()
@@ -128,12 +130,19 @@ public class PlayerController : MonoBehaviour
                 _swordTime -= Time.fixedDeltaTime;
             }
         }
-          
         _rb.velocity = dir * _speed * Time.fixedDeltaTime;
         PlayerPos = _rb.position;
     }
 
+    public bool GetHasBoomerang()
+    {
+        return _hasBoomerang;
+    }
 
+    public void SetHasBoomerang(bool hasBoomerang)
+    {
+        _hasBoomerang = hasBoomerang;
+    }
 
     public void ResetPos()
     {
@@ -166,15 +175,5 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Boomerang"))
             _hasBoomerang = true;
-    }
-
-    public bool GetHasBoomerang()
-    {
-        return _hasBoomerang;
-    }
-
-    public void SetHasBoomerang(bool hasBoomerang)
-    {
-        _hasBoomerang = hasBoomerang;
     }
 }

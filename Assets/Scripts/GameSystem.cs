@@ -99,7 +99,7 @@ public class GameSystem : MonoBehaviour
 
     private bool _isGameOver;
 
-    //private bool _hasBoomerang;
+    private bool _hasBoomerang;
 
     private int _keyCounter;
 
@@ -108,8 +108,6 @@ public class GameSystem : MonoBehaviour
     public bool HasBoomerang { get; private set; }
 
     public bool GodModeEnabled { get; private set; }
-
-    public IEnumerable<GameObject> Objects { get; set; }
 
     private GameObject _cleanRoom1;
 
@@ -154,7 +152,6 @@ public class GameSystem : MonoBehaviour
 
         HasBoomerang = false;
 
-        _coinCounter = 0;
         _keyCounter = 0;
         _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
 
@@ -172,6 +169,7 @@ public class GameSystem : MonoBehaviour
         UpdateCurrentRoomId();
         UpdateDebugKeys();
         UpdateCameraDebugKeys();
+
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
 
         if (_keyCounter < 4 && Input.GetKeyDown(KeyCode.K))
@@ -194,7 +192,6 @@ public class GameSystem : MonoBehaviour
             _door4.gameObject.GetComponent<Animator>().Play("Open");
             _bossDoor.gameObject.GetComponent<Animator>().Play("Open");
         }
-
                
         if (!HasBoomerang)
         {
@@ -238,6 +235,15 @@ public class GameSystem : MonoBehaviour
 
     private void StartGame()
     {
+        _player.GetComponent<PlayerHealth>().ResetHealth();
+        _player.GetComponent<PlayerController>().ResetPos();
+
+        _hasBoomerang = false;
+
+        _keyCounter = 0;
+
+        _currentRoomId = RoomId.Entrance;
+
         if (_isGameOver)
         {
             if (_currentRoomId == RoomId.Entrance)
@@ -251,7 +257,6 @@ public class GameSystem : MonoBehaviour
             UpdateCurrentRoomId();
 
             _chest.GetComponent<ActivationController>().Activate();
-
 
             _door1.GetComponent<DoorController>().gameObject.SetActive(true);
             _door1.GetComponent<Animator>().Play("Close");
@@ -268,17 +273,11 @@ public class GameSystem : MonoBehaviour
             _bossDoor.GetComponent<DoorController>().gameObject.SetActive(true);
             _bossDoor.GetComponent<Animator>().Play("Close");
 
+            _gameUiCanvas.GetComponent<GameUIController>().ResetCoins();
+
             _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
         }
 
-        _player.GetComponent<PlayerHealth>().ResetHealth();
-        _player.GetComponent<PlayerController>().ResetPos();
-
-        _hasBoomerang = false;
-
-        _keyCounter = 0;
-
-        _currentRoomId = RoomId.Entrance;
         _isGameOver = false;
 
         // Hides the button
@@ -302,7 +301,6 @@ public class GameSystem : MonoBehaviour
     {
         // common GUI code goes here
     }
-
 
     private void UpdateCurrentRoomId()
     {

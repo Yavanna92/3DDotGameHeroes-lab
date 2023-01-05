@@ -88,6 +88,7 @@ public class BossController : MonoBehaviour
             _bulletPrefab.GetComponent<FireShot>().Shoot();
             _bulletRb.MovePosition(_bulletSpawnPoint.position);
             _bulletRb.MoveRotation(_bulletSpawnPoint.rotation);
+            _bulletRb.MoveRotation(Quaternion.Euler(-90f, 0f, 0f));
             _bulletRb.velocity = _bulletSpawnPoint.forward * _bulletSpeed;
 
             _timer = 0.0f;

@@ -1,14 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
-public class CoinController : MonoBehaviour
+public class HealthObjectController : MonoBehaviour
 {
-    public Vector3 Pos { get; private set; }
     private GameObject _player;
-
+    // Start is called before the first frame update
     void Start()
     {
         //_player = GameObject.FindGameObjectWithTag("Player");
@@ -19,14 +16,13 @@ public class CoinController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+       
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            GameSystem.Instance.IncrementGold();
+        if (collision.gameObject.CompareTag("Player")) {
+            GameSystem.Instance.IncrementHealth();
             Destroy(gameObject);
         }
     }

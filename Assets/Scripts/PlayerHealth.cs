@@ -17,6 +17,9 @@ public class PlayerHealth : MonoBehaviour
     // TODO: sync data on Health
     public void TakeDamage(int amount)
     {
+        if (GameSystem.Instance.GodModeEnabled)
+            return;
+
         Health -= amount;
 
         if (Health <= 0)
@@ -31,6 +34,12 @@ public class PlayerHealth : MonoBehaviour
     {
         gameObject.SetActive(true);
         Health = _MAX_HEALTH;
+    }
+
+    public void IncrementHealth()
+    {
+        if (Health < _MAX_HEALTH)
+            Health++;
     }
 
     // Update is called once per frame

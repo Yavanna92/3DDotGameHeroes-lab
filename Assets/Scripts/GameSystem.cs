@@ -118,6 +118,12 @@ public class GameSystem : MonoBehaviour
 
     private bool _gameOverScreenActive;
 
+    public int PlayerHealth { get; private set; }
+
+    public bool HasBoomerang { get; private set; }
+
+    public bool GodModeEnabled { get; private set; }
+
     private KeyCounter _keyCounter;
 
     private GameObject _cleanRoom1;
@@ -159,6 +165,10 @@ public class GameSystem : MonoBehaviour
         _credMenuButton = _creditsCanvas.GetComponentInChildren<Button>();
 
         _currentRoomId = RoomId.Entrance;
+
+        PlayerHealth = 10;
+
+        GodModeEnabled = false;
     }
 
     // Start is called before the first frame update
@@ -169,6 +179,9 @@ public class GameSystem : MonoBehaviour
 
         _currentRoom = Instantiate(room1_Object);
 
+        HasBoomerang = false;
+
+        _keyCounter = 0;
         _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
 
         _door1 = Instantiate(doorObject, new Vector3(0.0f, 0.0f, -6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
@@ -181,8 +194,11 @@ public class GameSystem : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PlayerHealth = _player.GetComponent<PlayerHealth>().Health;
         UpdateCurrentRoomId();
+        UpdateDebugKeys();
         UpdateCameraDebugKeys();
+
         _gameUiCanvas.GetComponent<GameUIController>().UpdateHealthBar(_player.GetComponent<PlayerHealth>().Health);
 
             if (_keyCounter.Keys < 4 && Input.GetKeyDown(KeyCode.K))
@@ -210,9 +226,9 @@ public class GameSystem : MonoBehaviour
         {
             if (_chest.GetComponent<ActivationController>().isActive())
             {
-                _player.GetComponent<PlayerController>()._hasBoomerang = true;
+                _player.GetComponent<PlayerController>().SetHasBoomerang(true);
                 _gameUiCanvas.GetComponent<GameUIController>().ActivateBoomerang();
-                _hasBoomerang = true;
+                HasBoomerang = true;
             }
         }
 
@@ -276,9 +292,27 @@ public class GameSystem : MonoBehaviour
         _creditsCanvas.gameObject.SetActive(false);
     }
 
+    public void IncrementHealth()
+    {
+        _player.GetComponent<PlayerHealth>().IncrementHealth();
+    }
+
+    public void IncrementGold()
+    {
+        _gameUiCanvas.GetComponent<GameUIController>().IncrementCoins();
+    }
 
     private void StartGame()
     {
+        _player.GetComponent<PlayerHealth>().ResetHealth();
+        _player.GetComponent<PlayerController>().ResetPos();
+
+        _hasBoomerang = false;
+
+        _keyCounter = 0;
+
+        _currentRoomId = RoomId.Entrance;
+
         if (_isGameOver)
         {
             if (_currentRoomId == RoomId.Entrance)
@@ -292,7 +326,6 @@ public class GameSystem : MonoBehaviour
             UpdateCurrentRoomId();
 
             _chest.GetComponent<ActivationController>().Activate();
-
 
             _door1.GetComponent<DoorController>().gameObject.SetActive(true);
             _door1.GetComponent<Animator>().Play("Close");
@@ -308,6 +341,8 @@ public class GameSystem : MonoBehaviour
 
             _bossDoor.GetComponent<DoorController>().gameObject.SetActive(true);
             _bossDoor.GetComponent<Animator>().Play("Close");
+
+            _gameUiCanvas.GetComponent<GameUIController>().ResetCoins();
 
             _gameUiCanvas.GetComponent<GameUIController>().HideGameOver();
         }
@@ -339,7 +374,6 @@ public class GameSystem : MonoBehaviour
     {
         // common GUI code goes here
     }
-
 
     private void UpdateCurrentRoomId()
     {
@@ -602,6 +636,12 @@ public class GameSystem : MonoBehaviour
 
             _camera.GetComponent<CameraController>().MoveCamera(_currentRoomId);
         }
+    }
+
+    private void UpdateDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+            GodModeEnabled = !GodModeEnabled;
     }
 
     private void UpdateCameraDebugKeys()

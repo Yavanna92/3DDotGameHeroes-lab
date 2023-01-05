@@ -17,6 +17,9 @@ public class PlayerHealth : MonoBehaviour
     // TODO: sync data on Health
     public void TakeDamage(int amount)
     {
+        if (GameSystem.Instance.GodModeEnabled)
+            return;
+
         Health -= amount;
 
         if (Health <= 0)

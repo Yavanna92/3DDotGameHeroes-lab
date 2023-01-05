@@ -1,4 +1,5 @@
 using Assets.Sources;
+using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
@@ -96,6 +97,8 @@ public class GameSystem : MonoBehaviour
 
     public bool GodModeEnabled { get; private set; }
 
+    public IEnumerable<GameObject> Objects { get; set; }
+
     // When instantiating it is strictly necessary to save the instance in the private fields
     // if we need to access to any of the object components
     void Awake()
@@ -183,6 +186,16 @@ public class GameSystem : MonoBehaviour
     private void OnDisable()
     {
         _startButton.onClick.RemoveListener(StartGame);
+    }
+
+    public void IncrementHealth()
+    {
+        _player.GetComponent<PlayerHealth>().IncrementHealth();
+    }
+
+    public void IncrementGold()
+    {
+        _gameUiCanvas.GetComponent<GameUIController>().IncrementCoins();
     }
 
     private void StartGame()

@@ -45,4 +45,9 @@ public class GameUIController : MonoBehaviour
         _boomerangUIController.Activate();
     }
 
+    public void IncrementCoins()
+    {
+        _coinCounter.AddCoin();
+    }
+
 }

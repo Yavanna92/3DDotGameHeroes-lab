@@ -36,6 +36,12 @@ public class PlayerHealth : MonoBehaviour
         Health = _MAX_HEALTH;
     }
 
+    public void IncrementHealth()
+    {
+        if (Health < _MAX_HEALTH)
+            Health++;
+    }
+
     // Update is called once per frame
     void Update()
     {

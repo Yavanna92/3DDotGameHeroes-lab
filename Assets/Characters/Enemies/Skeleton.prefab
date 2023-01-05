@@ -303,7 +303,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74b824ef7a496a54cacf629484ac2a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 2
+  health: 3
+  _healthObject: {fileID: 755127140576693338, guid: 64abc1edbe2372e42a2eb1f49213ff95, type: 3}
+  _coinObject: {fileID: 2706613585632326370, guid: 7906afe0b133e5e4e9744c9b7521c490, type: 3}
 --- !u!1 &1674001282497058944
 GameObject:
   m_ObjectHideFlags: 0
@@ -652,7 +654,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5289b1fe61ccd458bf49cfb1f1fe3c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerHealth: {fileID: 0}
 --- !u!136 &4576331219117271351
 CapsuleCollider:
   m_ObjectHideFlags: 0

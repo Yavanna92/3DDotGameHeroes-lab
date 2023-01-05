@@ -1,9 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Schema;
 using TMPro;
-using Unity.VisualScripting;
-using UnityEditor.UI;
 using UnityEngine;
 
 public class CoinCounter : MonoBehaviour

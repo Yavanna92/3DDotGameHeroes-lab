@@ -36,7 +36,9 @@ public class LightFlicker : MonoBehaviour
     /// </summary>
     public void Reset()
     {
-        smoothQueue.Clear();
+        if (smoothQueue != null)
+            smoothQueue.Clear();
+
         lastSum = 0;
     }
 

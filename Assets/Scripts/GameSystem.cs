@@ -1,7 +1,5 @@
 using Assets.Sources;
 using System.Linq;
-using TMPro.EditorUtilities;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.UIElements;
@@ -93,6 +91,15 @@ public class GameSystem : MonoBehaviour
     [SerializeField]
     private GameObject doorObject;
 
+    [SerializeField]
+    private GameObject _keyButton;
+
+    private GameObject _keyButton2;
+
+    private GameObject _keyButton3;
+
+    private GameObject _keyButton4;
+
     private GameObject _currentRoom;
 
     private GameObject _door1;
@@ -169,6 +176,11 @@ public class GameSystem : MonoBehaviour
         PlayerHealth = 10;
 
         GodModeEnabled = false;
+
+        _keyButton2 = Instantiate(_keyButton, new Vector3(38f, 0.5f, 0f), Quaternion.Euler(0f, 90f, 0f));
+        _keyButton3 = Instantiate(_keyButton, new Vector3(38f, 0.5f, 0f), Quaternion.Euler(0f, 90f, 0f));
+        _keyButton4 = Instantiate(_keyButton, new Vector3(38f, 0.5f, 0f), Quaternion.Euler(0f, 90f, 0f));
+        _keyButton = Instantiate(_keyButton, new Vector3(38f, 0.5f, 0f), Quaternion.Euler(0f, 90f, 0f));
     }
 
     // Start is called before the first frame update
@@ -181,7 +193,7 @@ public class GameSystem : MonoBehaviour
 
         HasBoomerang = false;
 
-        _keyCounter = 0;
+        _keyCounter.ResetKey();
         _chest = Instantiate(_chest, new Vector3(1.5f, 0.0f, 0.5f), Quaternion.identity);
 
         _door1 = Instantiate(doorObject, new Vector3(0.0f, 0.0f, -6.0f), Quaternion.Euler(0.0f, 90.0f, 0.0f));
@@ -309,7 +321,7 @@ public class GameSystem : MonoBehaviour
 
         _hasBoomerang = false;
 
-        _keyCounter = 0;
+        _keyCounter.ResetKey();
 
         _currentRoomId = RoomId.Entrance;
 

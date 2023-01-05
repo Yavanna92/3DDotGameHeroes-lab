@@ -246,6 +246,7 @@ MonoBehaviour:
   _creditsCanvas: {fileID: 5136067327007189765, guid: d3f1206ec7005814a9cb8a4469b3c376, type: 3}
   _chest: {fileID: 5516658697258037908, guid: f06c1d1064b2d7646b0f7f00b37375b7, type: 3}
   doorObject: {fileID: 1481209722691026344, guid: 3970cc96715fd4044b9942969c027292, type: 3}
+  _keyButton: {fileID: 581392741279997368, guid: eac6f79653f2e754daeabd82b184328e, type: 3}
 --- !u!4 &1390513059
 Transform:
   m_ObjectHideFlags: 0
